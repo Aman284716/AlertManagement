@@ -1,0 +1,97 @@
+accounts (
+    account_id TEXT PRIMARY KEY,
+    user_id TEXT,
+    account_type TEXT,
+    current_balance REAL,
+    is_active BOOLEAN,
+    FOREIGN KEY(user_id) REFERENCES users(user_id)
+)
+
+alerts (
+    alert_id TEXT PRIMARY KEY,
+    user_id TEXT,
+    account_id TEXT,
+    transaction_id TEXT,
+    alert_type TEXT,
+    timestamp TEXT,
+    description TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(user_id),
+    FOREIGN KEY(account_id) REFERENCES accounts(account_id),
+    FOREIGN KEY(transaction_id) REFERENCES transactions(transaction_id)
+)
+
+
+devices (
+    device_id TEXT PRIMARY KEY,
+    device_type TEXT,
+    os TEXT,
+    last_seen_ip TEXT
+)
+
+
+login_attempts (
+    login_id TEXT PRIMARY KEY,
+    user_id TEXT,
+    timestamp TEXT,
+    status TEXT,
+    ip_address TEXT,
+    device_id TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(user_id),
+    FOREIGN KEY(device_id) REFERENCES devices(device_id)
+)
+
+
+payees (
+    payee_id TEXT PRIMARY KEY,
+    payee_name TEXT,
+    email TEXT,
+    phone_number TEXT,
+    registered_location TEXT,
+    account_creation_date TEXT
+)
+
+
+transactions (
+    transaction_id TEXT PRIMARY KEY,
+    user_id TEXT,
+    account_id TEXT,
+    timestamp TEXT,
+    amount REAL,
+    currency TEXT,
+    merchant TEXT,
+    transaction_type TEXT,
+    location TEXT,
+    device_id TEXT,
+    ip_address TEXT,
+    payee_id TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(user_id),
+    FOREIGN KEY(account_id) REFERENCES accounts(account_id),
+    FOREIGN KEY(device_id) REFERENCES devices(device_id),
+    FOREIGN KEY(payee_id) REFERENCES payees(payee_id)
+)
+
+
+user_devices (
+    user_id TEXT,
+    device_id TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(user_id)
+)
+
+
+user_payees (
+    user_id TEXT,
+    payee_id TEXT,
+    date_added_by_user TEXT,
+    FOREIGN KEY(user_id) REFERENCES users(user_id),
+    FOREIGN KEY(payee_id) REFERENCES payees(payee_id)
+)
+
+
+users (
+    user_id TEXT PRIMARY KEY,
+    name TEXT,
+    email TEXT,
+    phone_number TEXT,
+    registered_location TEXT,
+    account_creation_date TEXT
+)

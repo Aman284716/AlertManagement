@@ -8,6 +8,12 @@ from dotenv import load_dotenv
 from src.workflow.orchestrator import AlertInvestigationOrchestrator
 from typing import Dict, Any, List
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException
+from pydantic import BaseModel
+
+class ReviewFinalizeRequest(BaseModel):
+    is_suspicious: bool
+    investigation_summary: str
 
 # Load environment variables from .env file
 load_dotenv()
@@ -80,12 +86,33 @@ def _save_investigation_result(alert_id: str, result: Dict[str, Any]):
 
 from datetime import datetime
 
+
+@app.get("/review_status_counts")
+def review_status_counts():
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+    try:
+        return orchestrator.db.get_review_status_counts()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch counts: {e}")
+
 @app.post("/investigate_alert/{alert_id}")
-async def investigate_alert(alert_id: str) -> Dict[str, Any]:
-    """Investigate a specific alert and save the full result."""
-    result = await orchestrator.investigate_alert(alert_id)
-    _save_investigation_result(alert_id, result)
-    return result
+async def investigate_alert(alert_id: str):
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+
+    # quick check before invoking the workflow
+    if not orchestrator.db.alert_exists(alert_id):
+        raise HTTPException(status_code=404, detail="Alert not found")
+
+    try:
+        result = await orchestrator.investigate_alert(alert_id)
+        return result
+    except ValueError as ve:
+        # belt-and-suspenders: if orchestrator also raised the guard
+        if "Alert not found" in str(ve):
+            raise HTTPException(status_code=404, detail="Alert not found")
+        raise
 
 @app.post("/process_pending_alerts")
 async def process_pending_alerts(limit: int = 2) -> Dict[str, Any]:
@@ -144,6 +171,31 @@ async def get_investigation_outcomes() -> List[Dict[str, Any]]:
         return results
     else:
         raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+    
+@app.post("/alerts/{alert_id}/finalize_review")
+def finalize_review(alert_id: str, body: ReviewFinalizeRequest):
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+    try:
+        orchestrator.db.set_review_and_update_outcome(
+            alert_id=alert_id,
+            is_suspicious=body.is_suspicious,
+            investigation_summary=body.investigation_summary,
+        )
+        return {
+            "alert_id": alert_id,
+            "review_status": 2,
+            "updated_fields": {
+                "is_suspicious": body.is_suspicious,
+                "investigation_summary": body.investigation_summary,
+            },
+            "message": "Review finalized and outcome updated."
+        }
+    except ValueError as ve:
+        # bubble up not founds as 404s
+        raise HTTPException(status_code=404, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to finalize review: {e}")
 
 @app.get("/__routes")
 def list_routes():

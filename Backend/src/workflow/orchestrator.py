@@ -31,6 +31,8 @@ class AlertInvestigationOrchestrator:
         self.workflow = create_investigation_workflow(self.agents)
 
     async def investigate_alert(self, alert_id: str) -> Dict[str, Any]:
+        if not self.db.alert_exists(alert_id):
+            raise ValueError(f"Alert not found: {alert_id}")
         """Investigate a single alert and log the full result."""
         print(f"\n--- Starting investigation for alert {alert_id} ---")
         initial_state = AlertInvestigationState(

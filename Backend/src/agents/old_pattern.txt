@@ -1,0 +1,275 @@
+# src/agents/pattern_agent.py
+
+import json
+from typing import Dict, Any, List
+from datetime import datetime, timedelta
+
+from src.agents.base_agent import BaseAgent
+from src.data.models import AlertType
+from src.workflow.state import AlertInvestigationState
+
+# — Fraud‐pattern thresholds (from your data generator) —
+HIGH_VALUE_THRESHOLD             = 100_000
+FAILED_LOGIN_THRESHOLD           = 50_000
+VELOCITY_THRESHOLD               = 5
+VELOCITY_WINDOW_MINUTES          = 5
+NEW_PAYEE_WINDOW_DAYS            = 7
+NEW_PAYEE_TRANSACTION_THRESHOLD  = 50_000
+STRUCTURING_THRESHOLD            = 150_000
+STRUCTURING_WINDOW_DAYS          = 7
+CROSS_CHANNEL_WINDOW_MINUTES     = 60
+HIGH_RISK_COUNTRIES              = {"IR", "KP", "SY", "CU"}
+
+# A mapping of alert types to human‐readable rule definitions
+RULE_DEFINITIONS = {
+    "HighValue":           f"Transaction amount > {HIGH_VALUE_THRESHOLD}",
+    "GeoMismatch":         "Transaction location != user’s registered location",
+    "Velocity":            f"> {VELOCITY_THRESHOLD} txns in {VELOCITY_WINDOW_MINUTES} minutes",
+    "FailedLoginTransfer": f"Failed logins immediately followed by a transfer > {FAILED_LOGIN_THRESHOLD}",
+    "NewPayee":            f"New payee added < {NEW_PAYEE_WINDOW_DAYS}d, amount > {NEW_PAYEE_TRANSACTION_THRESHOLD}",
+    "Structuring":         f"Multiple smaller txns > {STRUCTURING_THRESHOLD} over {STRUCTURING_WINDOW_DAYS}d",
+    "CrossChannel":        f"ATM withdrawal + transfer in different locations within {CROSS_CHANNEL_WINDOW_MINUTES}m",
+    "HighRiskLocation":    f"Transaction to one of {sorted(HIGH_RISK_COUNTRIES)}"
+}
+
+
+class PatternRecognitionAgent(BaseAgent):
+    def __init__(self, db_manager, llm_helper, config: Dict[str, Any]):
+        super().__init__(db_manager, llm_helper, config)
+        self.confidence_threshold = float(config.get('pattern_confidence_threshold', 0.7))
+        self.default_max_loops    = int(config.get('max_loops', 3))
+
+    async def execute(self, state: AlertInvestigationState) -> Dict[str, Any]:
+        alert_id   = state.alert_id
+        loop_count = state.loop_count if isinstance(state.loop_count, int) else 0
+        max_loops  = getattr(state, 'max_loops', self.default_max_loops)
+
+        # 1) Gather context, evidence, queries
+        context  = state.context_data.get("alert_basic", {}) or {}
+        evidence = state.evidence_collected or {}
+        queries  = getattr(state, 'queries_executed', [])
+#         RULES:
+# {json.dumps(RULE_DEFINITIONS, indent=2)}
+        # 2) Build the exact prompt you specified
+        prompt = f"""You are a fraud-detection assistant.
+Given these RULES, ALERT TYPE, and CONTEXT, identify which rules fired:
+
+
+
+ALERT_TYPE: {context.get("alert_type", "Unknown")}
+
+CONTEXT:
+{json.dumps(context, indent=2)}
+
+Return valid JSON with keys:
+  • patterns         (list of rule-names triggered)
+  • risk_indicators (list of high-level risk factors)
+  • confidence      (float 0.0–1.0)
+  • evidence        (optional supporting details)
+"""
+
+        # 3) Call the LLM
+        raw_llm = await self.llm_helper.generate_response(prompt)
+        print(f"[{self.agent_name}] 📥 RAW LLM RESPONSE:\n{raw_llm}\n")
+
+        # 4) Strip ``` fences & parse JSON
+        if isinstance(raw_llm, str):
+            text = raw_llm.strip()
+            if text.startswith("```"):
+                lines = text.splitlines()
+                if lines[0].startswith("```"): lines = lines[1:]
+                if lines and lines[-1].startswith("```"): lines = lines[:-1]
+                text = "\n".join(lines).strip()
+            try:
+                llm_analysis = json.loads(text)
+            except json.JSONDecodeError:
+                print(f"[{self.agent_name}] ❗️ Failed to parse LLM JSON, defaulting empty")
+                llm_analysis = {"patterns": [], "risk_indicators": [], "confidence": 0.0, "evidence": {}}
+        else:
+            llm_analysis = raw_llm  # assume dict
+
+        # 5) Start building combined result
+        enhanced = {
+            "llm_analysis":      llm_analysis,
+            "rule_based_patterns": {},
+            "risk_factors":      [],
+            "overall_confidence": 0.0
+        }
+
+        # The rest of the logic to combine rule-based checks and LLM analysis is not
+        # what you want. We'll simplify this to directly use the LLM analysis.
+        # Let's assume you want to bypass the rule-based checks for this part.
+        
+        # We can still calculate an "overall_confidence" based on the LLM's confidence,
+        # and pull the patterns and risk factors directly from the LLM's output.
+        enhanced["overall_confidence"] = float(llm_analysis.get("confidence", 0.0))
+        enhanced["risk_factors"].extend(llm_analysis.get("risk_indicators", []))
+        enhanced["patterns"] = llm_analysis.get("patterns", [])
+        
+        print(f"[{self.agent_name}]     llm_analysis: {llm_analysis}")
+        print(f"[{self.agent_name}]     aggregated risk_factors: {enhanced['risk_factors']}")
+        print(f"[{self.agent_name}]     overall_confidence: {enhanced['overall_confidence']:.2f}")
+
+        # 10) Persist this step’s judgment
+        self.log_judgement(
+            alert_id=alert_id,
+            action="llm_pattern_analysis_complete",
+            confidence=enhanced["overall_confidence"],
+            rationale=enhanced,
+            loop_iteration=loop_count
+        )
+
+        # 11) Build the return payload, MERGING with existing outputs
+        # FIX: Merge with existing agent_outputs instead of overwriting
+        updated_agent_outputs = state.agent_outputs.copy()
+        updated_agent_outputs[self.agent_name] = enhanced
+
+        result: Dict[str, Any] = {
+            # This is the key the RiskAssessmentAgent is looking for.
+            # It now contains the enhanced LLM analysis.
+            "agent_outputs":    updated_agent_outputs,
+            "confidence_score": enhanced["overall_confidence"],
+            "risk_factors":     enhanced.get("risk_factors", []),
+        }
+
+        # 12) Loop‐back if confidence too low
+        if enhanced["overall_confidence"] < self.confidence_threshold and loop_count < max_loops:
+            print(f"[{self.agent_name}] 🔄 looping ingestion "
+                  f"(confidence {enhanced['overall_confidence']:.2f} < {self.confidence_threshold})")
+            result["context_data"] = {
+                "need_deeper_analysis": True,
+                "ambiguous_patterns":   llm_analysis # Using LLM analysis here
+            }
+            result["loop_count"] = loop_count + 1
+            result["success"]    = False
+            return result
+
+        # 13) Otherwise we’re done
+        print(f"[{self.agent_name}] ✅ Proceeding to next agent")
+        result["success"] = True
+        return result
+
+    def _find_evidence_list(self, evidence: Dict[str, Any], key_field: str) -> List[Dict[str, Any]]:
+        candidates = [
+            lst for lst in evidence.values()
+            if isinstance(lst, list)
+            and lst
+            and isinstance(lst[0], dict)
+            and key_field in lst[0]
+        ]
+        return max(candidates, key=lambda l: len(l)) if candidates else []
+
+    # ——— Rule‐based checks ———
+
+    def _analyze_high_value(self, context, evidence):
+        amt = context.get("amount") or 0
+        trig = amt > HIGH_VALUE_THRESHOLD
+        return {
+            "triggered":    trig,
+            "confidence":   0.9 if trig else 0.1,
+            "risk_factors": ["high_value_transaction"] if trig else []
+        }
+
+    def _analyze_geo_mismatch(self, context):
+        loc, home = context.get("location"), context.get("user_location")
+        trig = bool(loc and home and loc != home)
+        return {
+            "triggered":    trig,
+            "confidence":   0.8 if trig else 0.1,
+            "risk_factors": ["geo_mismatch"] if trig else []
+        }
+
+    def _analyze_velocity(self, context, evidence):
+        from datetime import datetime, timedelta
+        txns = self._find_evidence_list(evidence, "transaction_id")
+        try:
+            ts_alert = datetime.fromisoformat(context["timestamp"])
+        except:
+            return {"triggered": False, "confidence": 0.1, "risk_factors": []}
+        window_start = ts_alert - timedelta(minutes=VELOCITY_WINDOW_MINUTES)
+        count = sum(
+            1 for t in txns
+            if "timestamp" in t and window_start <= datetime.fromisoformat(t["timestamp"]) <= ts_alert
+        )
+        trig = count > VELOCITY_THRESHOLD
+        conf = min(0.9, 0.1 + (count - VELOCITY_THRESHOLD) * 0.1) if trig else 0.1
+        return {"triggered": trig, "confidence": conf, "risk_factors": ["high_velocity_activity"] if trig else []}
+
+    def _analyze_failed_login_transfer(self, context, evidence):
+        from datetime import datetime, timedelta
+        logs = self._find_evidence_list(evidence, "login_id")
+        try:
+            ts_alert = datetime.fromisoformat(context["timestamp"])
+        except:
+            return {"triggered": False, "confidence": 0.1, "risk_factors": []}
+        window = timedelta(minutes=10)
+        recent = [
+            l for l in logs
+            if "timestamp" in l
+            and abs((datetime.fromisoformat(l["timestamp"]) - ts_alert).total_seconds()) < window.total_seconds()
+        ]
+        fails = [l for l in recent if l.get("status") == "failure"]
+        succs = [l for l in recent if l.get("status") == "success"]
+        amt = context.get("amount") or 0
+        trig = bool(fails and succs and amt > FAILED_LOGIN_THRESHOLD)
+        return {"triggered": trig, "confidence": 0.9 if trig else 0.1, "risk_factors": ["failed_login_transfer"] if trig else []}
+
+    def _analyze_new_payee(self, context, evidence):
+        from datetime import datetime
+        ups = self._find_evidence_list(evidence, "date_added_by_user")
+        pid = context.get("payee_id")
+        for u in ups:
+            if u.get("payee_id") == pid:
+                try:
+                    added = datetime.fromisoformat(u["date_added_by_user"])
+                except:
+                    continue
+                age = (datetime.now() - added).days
+                trig = age < NEW_PAYEE_WINDOW_DAYS and (context.get("amount") or 0) > NEW_PAYEE_TRANSACTION_THRESHOLD
+                return {"triggered": trig, "confidence": 0.8 if trig else 0.1, "risk_factors": ["new_payee_activity"] if trig else []}
+        return {"triggered": False, "confidence": 0.1, "risk_factors": []}
+
+    def _analyze_structuring(self, context, evidence):
+        from datetime import datetime, timedelta
+        txns = self._find_evidence_list(evidence, "transaction_id")
+        try:
+            ts_alert = datetime.fromisoformat(context["timestamp"])
+        except:
+            return {"triggered": False, "confidence": 0.1, "risk_factors": []}
+        window_start = ts_alert - timedelta(days=STRUCTURING_WINDOW_DAYS)
+        parts = [
+            t for t in txns
+            if "timestamp" in t and window_start <= datetime.fromisoformat(t["timestamp"]) <= ts_alert
+        ]
+        total = sum(t.get("amount", 0) for t in parts)
+        trig = total > STRUCTURING_THRESHOLD and len(parts) > 1
+        conf = min(0.9, 0.1 + (total / STRUCTURING_THRESHOLD) * 0.2) if trig else 0.1
+        return {"triggered": trig, "confidence": conf, "risk_factors": ["structuring_activity"] if trig else []}
+
+    def _analyze_cross_channel(self, context, evidence):
+        from datetime import datetime, timedelta
+        txns = self._find_evidence_list(evidence, "transaction_id")
+        try:
+            ts_alert = datetime.fromisoformat(context["timestamp"])
+        except:
+            return {"triggered": False, "confidence": 0.1, "risk_factors": []}
+        window = timedelta(minutes=CROSS_CHANNEL_WINDOW_MINUTES)
+        atm = [
+            t for t in txns
+            if t.get("transaction_type") == "ATM Withdrawal"
+            and "timestamp" in t
+            and abs((datetime.fromisoformat(t["timestamp"]) - ts_alert).total_seconds()) < window.total_seconds()
+        ]
+        xfr = [
+            t for t in txns
+            if t.get("transaction_type") == "transfer"
+            and "timestamp" in t
+            and abs((datetime.fromisoformat(t["timestamp"]) - ts_alert).total_seconds()) < window.total_seconds()
+        ]
+        trig = bool(atm and xfr and atm[0].get("location") != xfr[0].get("location"))
+        return {"triggered": trig, "confidence": 0.9 if trig else 0.1, "risk_factors": ["cross_channel_activity"] if trig else []}
+
+    def _analyze_high_risk_location(self, context):
+        loc = context.get("location")
+        trig = loc in HIGH_RISK_COUNTRIES
+        return {"triggered": trig, "confidence": 0.8 if trig else 0.1, "risk_factors": ["high_risk_location"] if trig else []}

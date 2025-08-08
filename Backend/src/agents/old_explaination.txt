@@ -1,0 +1,162 @@
+# src/agents/explanation_agent.py
+
+from typing import Dict, Any, Tuple, List
+from src.agents.base_agent import BaseAgent
+from src.workflow.state import AlertInvestigationState
+import json
+
+class ExplanationAgent(BaseAgent):
+    async def execute(self, state: AlertInvestigationState) -> Dict[str, Any]:
+        """
+        Generate a human-readable explanation and structured rationale based on
+        the patterns detected and the evidence collected.
+
+        Args:
+            state: The current AlertInvestigationState, containing:
+              - alert_id
+              - context_data (with 'alert_basic')
+              - evidence_collected
+              - agent_outputs (from previous agents)
+              - loop_count
+
+        Returns:
+            A dict with:
+              - agent_outputs: mapping from this agent name to its output dict
+              - evidence_summary: summary of queries and data points
+              - investigation_trail: audit trail of each agent’s output
+              - success: bool indicating readiness to finish the pipeline
+        """
+        alert_id = state.alert_id
+        print(f"[{self.agent_name}] Starting for alert {alert_id}.")
+        context = state.context_data.get("alert_basic", {})
+        
+        # Pull the patterns from the state, now they should exist
+        patterns_output = state.agent_outputs.get('PatternRecognitionAgent', {})
+        llm_patterns = patterns_output.get("llm_analysis", {})
+
+        # 1. Generate the natural-language explanation
+        explanation = await self.llm_helper.generate_explanation(context, llm_patterns)
+
+        # 2. Generate a structured rationale JSON
+        rationale = await self._generate_structured_rationale(context, llm_patterns, explanation)
+
+        # 3. Summarize the evidence and build the investigation trail
+        evidence_summary = self._summarize_evidence(state.evidence_collected or {})
+        investigation_trail = self._build_investigation_trail(state)
+
+        # 4. Log the judgement
+        # Use the confidence from the rationale, not a hardcoded value
+        self.log_judgement(
+            alert_id=alert_id,
+            action="explanation_generated",
+            confidence=rationale.get("confidence", 0.0),
+            rationale={
+                "explanation_length": len(explanation),
+                "key_evidence_points": len(rationale.get("key_points", [])),
+                "investigation_summary": rationale.get("investigation_summary", "")
+            },
+            loop_iteration=state.loop_count
+        )
+        print(f"[{self.agent_name}] Generated explanation and rationale for alert {alert_id}.")
+
+        # 5. Return a single dict payload
+        # FIX: Correctly merge agent outputs instead of overwriting them
+        updated_agent_outputs = state.agent_outputs.copy()
+        
+        # Store the output for this specific agent
+        current_agent_output = {
+            "explanation": explanation,
+            "rationale": rationale,
+            "evidence_summary": evidence_summary,
+            "investigation_trail": investigation_trail
+        }
+        updated_agent_outputs[self.agent_name] = current_agent_output
+
+        return {
+            "agent_outputs": updated_agent_outputs,
+            "success": True,
+            # Ensure other state fields are passed through or updated
+            "loop_count": state.loop_count,
+            "context_data": state.context_data,
+            "evidence_collected": state.evidence_collected,
+            "queries_executed": state.queries_executed,
+            "risk_factors": state.risk_factors,
+            "confidence_score": rationale.get("confidence", 0.0),
+            "investigation_summary": rationale.get("investigation_summary", ""),
+        }
+    
+    async def _generate_structured_rationale(self, context: Dict[str, Any],
+                                             patterns: Dict[str, Any],
+                                             explanation: str) -> Dict[str, Any]:
+        """Use LLM to generate a structured JSON rationale for decision making.""" 
+        rationale_prompt = f"""
+Based on this investigation data, create a structured rationale in JSON format:
+ALERT CONTEXT: {json.dumps(context, indent=2)}
+PATTERNS DETECTED: {json.dumps(patterns, indent=2)}
+EXPLANATION: {explanation}
+
+Create a JSON response with the following keys:
+1. key_points: List of main evidence points
+2. risk_level: LOW/MEDIUM/HIGH
+3. recommendation: CLOSE/ESCALATE/INVESTIGATE_FURTHER
+4. confidence_factors: What increases/decreases confidence
+5. investigation_summary: Brief summary of findings
+6. confidence: float (0.0-1.0)
+        """ 
+        response = await self.llm_helper.generate_response(rationale_prompt)
+        try:
+            # Added `confidence` to the hardcoded default
+            return json.loads(response)
+        except json.JSONDecodeError:
+            return {'key_points': ['Analysis generated'], 'risk_level': 'MEDIUM',
+                    'recommendation': 'INVESTIGATE_FURTHER', 'confidence_factors': ['Pattern analysis completed'],
+                    'investigation_summary': explanation[:200], 'confidence': 0.5}
+
+    def _summarize_evidence(self, evidence: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Summarize collected evidence for audit purposes.
+
+        Args:
+            evidence: A dict where keys ending in '_sql' are SQL strings
+                      and other keys map to query result lists or single items.
+
+        Returns:
+            A dict with:
+              - total_queries_executed: count of SQL queries run
+              - total_data_points: total number of records returned (lists) or items
+              - key_findings: brief lines noting how many records each result list contained
+        """
+        # 1. Count how many SQL queries were executed
+        total_queries_executed = sum(1 for key in evidence if key.endswith("_sql"))
+
+        # 2. Sum up all data points for non-SQL entries
+        total_data_points = sum(
+            len(value) if isinstance(value, list) else 1
+            for key, value in evidence.items()
+            if not key.endswith("_sql")
+        )
+
+        # 3. Build a list of key findings
+        key_findings: List[str] = []
+        for key, value in evidence.items():
+            if isinstance(value, list) and value:
+                key_findings.append(f"{key}: {len(value)} records found")
+
+        return {
+            "total_queries_executed": total_queries_executed,
+            "total_data_points": total_data_points,
+            "key_findings": key_findings
+        }
+
+
+    def _build_investigation_trail(self, state: AlertInvestigationState) -> List[Dict[str, Any]]:
+        """Build an investigation trail for audit purposes.""" 
+        trail = []
+        for agent_name, output in state.agent_outputs.items():
+            trail.append({
+                'agent': agent_name,
+                'loop_iteration': state.loop_count,
+                'key_findings': str(output)[:100] + "..." if len(str(output)) > 100 else str(output),
+                'confidence_contributed': output.get('overall_confidence', 0.0) if isinstance(output, dict) else 0.0
+            })
+        return trail

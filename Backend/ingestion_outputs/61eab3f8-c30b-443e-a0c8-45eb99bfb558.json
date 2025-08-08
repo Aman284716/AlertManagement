@@ -1,0 +1,3185 @@
+{
+    "query_1_results": [
+        {
+            "COUNT(*)": 7
+        }
+    ],
+    "query_1_sql": "SELECT COUNT(*) FROM transactions WHERE user_id = 'U001' AND amount > 100000 AND timestamp < '2025-08-01 17:55:10';",
+    "query_1_count": 1,
+    "query_2_results": [
+        {
+            "transaction_id": "23377bbc-fffe-47c8-b9fe-b99c31274148",
+            "amount": 147678.85,
+            "location": "Sudan",
+            "timestamp": "2025-08-01 17:55:10"
+        },
+        {
+            "transaction_id": "21761930-f6d7-4248-a995-ecc36f5b09a6",
+            "amount": 111215.92,
+            "location": "Sudan",
+            "timestamp": "2025-07-30 19:45:11"
+        },
+        {
+            "transaction_id": "797e3984-ded7-43ef-b5e4-a9c12d761ffa",
+            "amount": 111345.46,
+            "location": "Sudan",
+            "timestamp": "2025-07-14 11:33:11"
+        },
+        {
+            "transaction_id": "3818cfd3-3889-436a-9d58-17e85e175b66",
+            "amount": 111753.72,
+            "location": "Sudan",
+            "timestamp": "2025-07-14 03:40:11"
+        },
+        {
+            "transaction_id": "f004e897-a15b-4e18-afb0-64065f4b1a97",
+            "amount": 111176.52,
+            "location": "Sudan",
+            "timestamp": "2025-07-04 23:10:11"
+        },
+        {
+            "transaction_id": "55ec024a-e64b-4b37-ae01-a122f269921c",
+            "amount": 211615.24,
+            "location": "Sudan",
+            "timestamp": "2025-06-20 01:49:11"
+        },
+        {
+            "transaction_id": "03438b64-00b3-400f-bc08-899054a27051",
+            "amount": 211518.58,
+            "location": "Sudan",
+            "timestamp": "2025-06-13 09:37:11"
+        },
+        {
+            "transaction_id": "333ee344-7dbf-4bc1-bfa6-23d0ea9e5c8d",
+            "amount": 115558.09,
+            "location": "Puerto Rico",
+            "timestamp": "2025-06-07 03:27:10"
+        }
+    ],
+    "query_2_sql": "SELECT transaction_id, amount, location, timestamp FROM transactions WHERE user_id = 'U001' AND amount > 100000 ORDER BY timestamp DESC LIMIT 10;",
+    "query_2_count": 8,
+    "query_3_results": [
+        {
+            "transaction_id": "23377bbc-fffe-47c8-b9fe-b99c31274148",
+            "amount": 147678.85,
+            "location": "Sudan",
+            "timestamp": "2025-08-01 17:55:10",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "21761930-f6d7-4248-a995-ecc36f5b09a6",
+            "amount": 111215.92,
+            "location": "Sudan",
+            "timestamp": "2025-07-30 19:45:11",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "797e3984-ded7-43ef-b5e4-a9c12d761ffa",
+            "amount": 111345.46,
+            "location": "Sudan",
+            "timestamp": "2025-07-14 11:33:11",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "3818cfd3-3889-436a-9d58-17e85e175b66",
+            "amount": 111753.72,
+            "location": "Sudan",
+            "timestamp": "2025-07-14 03:40:11",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "f004e897-a15b-4e18-afb0-64065f4b1a97",
+            "amount": 111176.52,
+            "location": "Sudan",
+            "timestamp": "2025-07-04 23:10:11",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "55ec024a-e64b-4b37-ae01-a122f269921c",
+            "amount": 211615.24,
+            "location": "Sudan",
+            "timestamp": "2025-06-20 01:49:11",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "03438b64-00b3-400f-bc08-899054a27051",
+            "amount": 211518.58,
+            "location": "Sudan",
+            "timestamp": "2025-06-13 09:37:11",
+            "alert_type": "HighValue"
+        },
+        {
+            "transaction_id": "333ee344-7dbf-4bc1-bfa6-23d0ea9e5c8d",
+            "amount": 115558.09,
+            "location": "Puerto Rico",
+            "timestamp": "2025-06-07 03:27:10",
+            "alert_type": "HighValue"
+        }
+    ],
+    "query_3_sql": "SELECT t.transaction_id, t.amount, t.location, t.timestamp, a.alert_type FROM transactions t JOIN alerts a ON t.transaction_id = a.transaction_id WHERE t.user_id = 'U001' AND a.alert_type = 'HighValue' ORDER BY t.timestamp DESC;",
+    "query_3_count": 8,
+    "query_4_results": [],
+    "query_4_sql": "SELECT l.timestamp, l.ip_address, l.device_id FROM login_attempts l WHERE l.user_id = 'U001' AND l.status = 'SUCCESS' AND l.timestamp < '2025-08-01 17:55:10' ORDER BY l.timestamp DESC LIMIT 5;",
+    "query_4_count": 0,
+    "query_5_results": [],
+    "query_5_sql": "SELECT d.device_id, d.device_type, d.os, d.last_seen_ip FROM devices d JOIN user_devices ud ON d.device_id = ud.device_id WHERE ud.user_id = 'U001' AND d.last_seen_ip = 'Sudan';",
+    "query_5_count": 0,
+    "query_6_results": [
+        {
+            "avg_amount": 14209.993483146067,
+            "max_amount": 211615.24,
+            "txn_count": 89
+        }
+    ],
+    "query_6_sql": "SELECT AVG(amount) as avg_amount, MAX(amount) as max_amount, COUNT(*) as txn_count FROM transactions WHERE user_id = 'U001' AND timestamp > date('now', '-90 days')",
+    "query_6_count": 1,
+    "query_7_results": [
+        {
+            "transaction_id": "23377bbc-fffe-47c8-b9fe-b99c31274148",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-08-01 17:55:10",
+            "amount": 147678.85,
+            "currency": "USD",
+            "merchant": "Jones Inc",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "194.38.167.71",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "333ee344-7dbf-4bc1-bfa6-23d0ea9e5c8d",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-07 03:27:10",
+            "amount": 115558.09,
+            "currency": "USD",
+            "merchant": "Taylor Inc",
+            "transaction_type": "transfer",
+            "location": "Puerto Rico",
+            "device_id": "DEV001_2",
+            "ip_address": "156.124.179.163",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "3818cfd3-3889-436a-9d58-17e85e175b66",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-14 03:40:11",
+            "amount": 111753.72,
+            "currency": "USD",
+            "merchant": "Mendoza Group",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "198.111.210.240",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "21761930-f6d7-4248-a995-ecc36f5b09a6",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-30 19:45:11",
+            "amount": 111215.92,
+            "currency": "USD",
+            "merchant": "Carter LLC",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "186.112.167.35",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "f004e897-a15b-4e18-afb0-64065f4b1a97",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-04 23:10:11",
+            "amount": 111176.52,
+            "currency": "USD",
+            "merchant": "Miller, Willis and Lowery",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "68.32.79.81",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "797e3984-ded7-43ef-b5e4-a9c12d761ffa",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-14 11:33:11",
+            "amount": 111345.46,
+            "currency": "USD",
+            "merchant": "Arnold, Cooper and Monroe",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "178.228.125.155",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "55ec024a-e64b-4b37-ae01-a122f269921c",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-20 01:49:11",
+            "amount": 211615.24,
+            "currency": "USD",
+            "merchant": "Davis, Kelly and Garner",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "149.52.76.202",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "03438b64-00b3-400f-bc08-899054a27051",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-13 09:37:11",
+            "amount": 211518.58,
+            "currency": "USD",
+            "merchant": "Davis, Rodriguez and Andrews",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "133.195.234.30",
+            "payee_id": "PAY0003"
+        }
+    ],
+    "query_7_sql": "SELECT * FROM transactions WHERE user_id = 'U001' AND amount > 100000",
+    "query_7_count": 8,
+    "query_8_results": [
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0001",
+            "date_added_by_user": "2024-10-23"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0002",
+            "date_added_by_user": "2024-09-30"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0003",
+            "date_added_by_user": "2025-07-13"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0004",
+            "date_added_by_user": "2025-06-12"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0005",
+            "date_added_by_user": "2025-04-01"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0006",
+            "date_added_by_user": "2024-09-24"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0007",
+            "date_added_by_user": "2024-10-15"
+        },
+        {
+            "user_id": "U001",
+            "payee_id": "PAY0008",
+            "date_added_by_user": "2024-08-31"
+        }
+    ],
+    "query_8_sql": "SELECT * FROM user_payees WHERE user_id = 'U001';",
+    "query_8_count": 8,
+    "query_9_results": [
+        {
+            "transaction_id": "dfcb821b-237c-4b55-8596-fab776b90472",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-08-04 22:26:11",
+            "amount": 274.25,
+            "currency": "USD",
+            "merchant": "Sullivan, Clarke and Wood",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "176.11.43.197",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "23377bbc-fffe-47c8-b9fe-b99c31274148",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-08-01 17:55:10",
+            "amount": 147678.85,
+            "currency": "USD",
+            "merchant": "Jones Inc",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "194.38.167.71",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "a7dfeb92-57c1-4f7e-9425-fc3a6964a112",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-08-01 14:19:11",
+            "amount": 116.67,
+            "currency": "USD",
+            "merchant": "Buchanan, Tucker and Wade",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "193.227.248.162",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "b62e8f02-d7b7-4862-b347-f1d458c6b1c6",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-08-01 00:36:11",
+            "amount": 660.71,
+            "currency": "USD",
+            "merchant": "Myers-Colon",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "114.223.141.74",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "4b46ef33-95e7-4614-82b4-02815f269466",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-31 14:57:11",
+            "amount": 637.88,
+            "currency": "USD",
+            "merchant": "York-Ruiz",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "204.145.217.142",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "50fcfdaa-274b-469e-9252-44876b709287",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-31 06:26:11",
+            "amount": 817.22,
+            "currency": "USD",
+            "merchant": "Gray-Maynard",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "71.249.203.72",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "7a9a8ef5-c11b-41c4-bfe3-f366bf337a15",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-31 03:49:11",
+            "amount": 222.37,
+            "currency": "USD",
+            "merchant": "Dominguez Ltd",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "115.212.76.178",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "658a8377-3da8-437a-9e69-d7ef08b3c111",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-30 23:18:11",
+            "amount": 392.52,
+            "currency": "USD",
+            "merchant": "Turner-Carlson",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "56.6.22.197",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "21761930-f6d7-4248-a995-ecc36f5b09a6",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-30 19:45:11",
+            "amount": 111215.92,
+            "currency": "USD",
+            "merchant": "Carter LLC",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "186.112.167.35",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "9d0a94df-d0f7-47b0-9708-0bbd3106e8ce",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-29 05:22:11",
+            "amount": 385.41,
+            "currency": "USD",
+            "merchant": "Turner, Robbins and Young",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "174.37.173.220",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "a66ccf43-83f3-4f4e-baf3-6aec1e0a7157",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-28 12:52:11",
+            "amount": 471.26,
+            "currency": "USD",
+            "merchant": "Watkins-Booker",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "203.190.184.98",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "a3fa4069-1519-4d38-a6fb-a71db3a9dcaa",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-27 23:29:11",
+            "amount": 526.56,
+            "currency": "USD",
+            "merchant": "Medina, Hernandez and Miller",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "45.1.48.10",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "ed5d6510-e52a-43e6-bec5-8a891db3c075",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-27 18:17:11",
+            "amount": 592.76,
+            "currency": "USD",
+            "merchant": "Williams-Kelly",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "207.169.125.235",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "9008cdc9-9d42-4bae-a134-e15bed56c714",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-27 04:18:11",
+            "amount": 93.93,
+            "currency": "USD",
+            "merchant": "Stone-Welch",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "163.185.58.83",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "575c9669-a00a-46e6-a42f-0c28c3e3c148",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-27 02:51:11",
+            "amount": 597.28,
+            "currency": "USD",
+            "merchant": "Davis-Reed",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "131.156.221.72",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "edf98b8d-8ddd-4a3e-892d-85a7be501500",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-26 21:15:11",
+            "amount": 658.27,
+            "currency": "USD",
+            "merchant": "Stokes-Smith",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "180.93.159.14",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "26330c43-a92f-45fe-a58f-cafcc1cfd878",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-26 17:50:11",
+            "amount": 704.99,
+            "currency": "USD",
+            "merchant": "Schmidt-Price",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "214.148.199.206",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "b962c8a7-b076-47dc-bd0c-e433ca5e151b",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-26 03:22:11",
+            "amount": 595.45,
+            "currency": "USD",
+            "merchant": "Mason LLC",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "78.219.114.131",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "fba75385-a98a-4cb0-bef5-27fe45e4307a",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-25 10:22:11",
+            "amount": 282.83,
+            "currency": "USD",
+            "merchant": "Peterson-Stevens",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "212.71.123.55",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "69958fd1-d891-4adf-b41c-612aa2491260",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-25 05:16:11",
+            "amount": 558.53,
+            "currency": "USD",
+            "merchant": "Colon-Lucas",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "183.142.96.39",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "5e6ba460-4a83-4ab5-97c8-50b09a73cd2f",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-24 10:12:11",
+            "amount": 485.88,
+            "currency": "USD",
+            "merchant": "Holmes Ltd",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "215.152.173.94",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "b43c7851-e78d-4f32-be2a-9f7347dfa607",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-23 22:08:11",
+            "amount": 735.59,
+            "currency": "USD",
+            "merchant": "Obrien, Smith and Joyce",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "216.224.7.249",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "79ec958b-4d26-4574-b9ea-5621661423a7",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-23 08:02:11",
+            "amount": 638.55,
+            "currency": "USD",
+            "merchant": "Vaughan, Nielsen and Hall",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "202.242.253.103",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "9bd972ca-0086-4f9e-ac19-1606a57d4eb4",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-22 10:47:11",
+            "amount": 151.53,
+            "currency": "USD",
+            "merchant": "Smith-Smith",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "119.210.217.62",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "cb2fbbc3-d21b-4733-8ead-a8d3e797f3ae",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-21 12:44:11",
+            "amount": 456.99,
+            "currency": "USD",
+            "merchant": "Bryant and Sons",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "211.103.16.176",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "f5b5ac71-63ef-4e69-b61d-56f5b9163357",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-20 07:53:11",
+            "amount": 407.73,
+            "currency": "USD",
+            "merchant": "Whitaker-Nunez",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "223.29.72.252",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "17e1e8f6-a03e-4003-a29c-b897142925a0",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-19 09:12:11",
+            "amount": 112.0,
+            "currency": "USD",
+            "merchant": "Hall, Lewis and Maldonado",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "21.39.76.23",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "647dc392-9c7e-4575-a37d-dcd698d3148b",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-18 01:37:11",
+            "amount": 375.47,
+            "currency": "USD",
+            "merchant": "Wilson, Bell and Ellis",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "25.132.171.4",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "47f53019-8843-4de2-99cf-0b0d91f0647d",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-16 22:49:11",
+            "amount": 34.33,
+            "currency": "USD",
+            "merchant": "Ryan, Morris and Padilla",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "179.12.21.165",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "5d8416e0-60e6-46ff-a757-43f9606cc2f5",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-16 22:03:11",
+            "amount": 673.83,
+            "currency": "USD",
+            "merchant": "Valdez, Houston and Black",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "173.114.31.217",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "bcc8509b-98da-4e8c-b9f7-e0046dfe8745",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-15 10:59:11",
+            "amount": 967.38,
+            "currency": "USD",
+            "merchant": "Hamilton LLC",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "155.115.242.214",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "7740d831-7331-4749-92fc-7a87a4704d48",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-15 04:21:10",
+            "amount": 96961.86,
+            "currency": "USD",
+            "merchant": "Holmes, Anderson and Calderon",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "b5a5f8e6-b639-4f04-a852-4385d9f2dd0d",
+            "ip_address": "200.186.84.139",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "62588ce9-f7ae-4de8-8a11-9bac8df21ad5",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-15 03:31:11",
+            "amount": 311.64,
+            "currency": "USD",
+            "merchant": "Lee, Dominguez and Mosley",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "202.249.22.254",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "a6091ad0-b114-44aa-92f6-9081400564b8",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-14 23:12:11",
+            "amount": 272.71,
+            "currency": "USD",
+            "merchant": "Hogan, Higgins and Martinez",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "55.58.118.239",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "797e3984-ded7-43ef-b5e4-a9c12d761ffa",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-14 11:33:11",
+            "amount": 111345.46,
+            "currency": "USD",
+            "merchant": "Arnold, Cooper and Monroe",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "178.228.125.155",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "3818cfd3-3889-436a-9d58-17e85e175b66",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-14 03:40:11",
+            "amount": 111753.72,
+            "currency": "USD",
+            "merchant": "Mendoza Group",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "198.111.210.240",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "0cb5ee5c-62f5-47c2-8706-fec248fa4e98",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-13 19:13:11",
+            "amount": 339.21,
+            "currency": "USD",
+            "merchant": "Nash and Sons",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "45.59.20.153",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "b33422cb-9a3f-4ad1-a9a9-aff9235fc3d5",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-13 02:33:11",
+            "amount": 674.13,
+            "currency": "USD",
+            "merchant": "Hunt, Cameron and Kelley",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "182.244.120.97",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "d8ed0649-ca82-4730-9997-7e2e22249813",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-12 12:10:11",
+            "amount": 163.74,
+            "currency": "USD",
+            "merchant": "Salazar, Strickland and Smith",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "128.118.91.165",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "05bf0618-6930-40c4-9557-6899a5b2c7ea",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-10 22:53:11",
+            "amount": 235.1,
+            "currency": "USD",
+            "merchant": "Williams PLC",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "209.65.13.49",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "fd595978-7965-42e3-b9b0-94ac4d2d8efd",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-10 10:31:11",
+            "amount": 525.74,
+            "currency": "USD",
+            "merchant": "Ferguson and Sons",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "90.195.254.158",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "46c937e0-d0c5-4550-b69a-053958f42098",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-10 09:10:11",
+            "amount": 842.7,
+            "currency": "USD",
+            "merchant": "Obrien and Sons",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "169.1.48.214",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "92ea1324-ec93-4596-ab01-57230cf697a5",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-09 13:13:11",
+            "amount": 460.29,
+            "currency": "USD",
+            "merchant": "Underwood-Foster",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "100.54.156.237",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "49a5baeb-d1f4-4c8d-951b-1974de668dd0",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-09 06:57:11",
+            "amount": 995.7,
+            "currency": "USD",
+            "merchant": "Cooper Inc",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "129.116.180.129",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "38cd9122-fc01-45e1-8ce2-afa201ae7eb1",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-08 04:53:11",
+            "amount": 349.23,
+            "currency": "USD",
+            "merchant": "Foley Inc",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "193.79.54.198",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "7eb9fe2d-3738-4270-9424-d9f3a18e4440",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-07 00:38:11",
+            "amount": 713.96,
+            "currency": "USD",
+            "merchant": "Padilla-Bennett",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "141.122.175.79",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "9e189a98-1d2d-4771-ae3d-24945675c8f3",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-06 09:53:11",
+            "amount": 258.56,
+            "currency": "USD",
+            "merchant": "Martinez and Sons",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "149.199.223.54",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "85e9054f-455c-4668-a3cb-9e1824a167fd",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-06 09:21:11",
+            "amount": 647.72,
+            "currency": "USD",
+            "merchant": "Jenkins-Hurley",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "202.92.41.5",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "99802368-55b8-4720-87cd-94446dba9754",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-05 16:45:11",
+            "amount": 46.76,
+            "currency": "USD",
+            "merchant": "Shelton and Sons",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "201.37.228.200",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "f004e897-a15b-4e18-afb0-64065f4b1a97",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-04 23:10:11",
+            "amount": 111176.52,
+            "currency": "USD",
+            "merchant": "Miller, Willis and Lowery",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "68.32.79.81",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "b9f6143b-b238-4056-a1ec-47541cf14654",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-04 16:27:11",
+            "amount": 546.03,
+            "currency": "USD",
+            "merchant": "Jarvis and Sons",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "119.185.9.66",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "fa4cb559-0ecc-4ff5-9316-2f53e70af828",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-04 02:00:11",
+            "amount": 394.32,
+            "currency": "USD",
+            "merchant": "Whitney, Lloyd and Liu",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "147.122.7.71",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "848ac924-3347-4a91-9609-598e67cba27a",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-03 12:42:11",
+            "amount": 839.23,
+            "currency": "USD",
+            "merchant": "Mclaughlin Inc",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "54.71.49.73",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "a6cc0a57-8e01-4eb3-8352-8ba43f0e924b",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-07-01 01:06:11",
+            "amount": 189.38,
+            "currency": "USD",
+            "merchant": "Torres Group",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "141.5.112.29",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "bcbb859a-9596-4725-9513-da02544c14d1",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-29 17:30:11",
+            "amount": 394.69,
+            "currency": "USD",
+            "merchant": "Shaffer-Manning",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "134.214.10.114",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "26870a98-7f0f-4662-a5e0-50f6b273f93c",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-28 20:38:11",
+            "amount": 169.82,
+            "currency": "USD",
+            "merchant": "Meyer Ltd",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "106.28.200.186",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "3cf1c29e-09b4-413c-a45c-a94a345298c4",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-28 00:52:11",
+            "amount": 720.48,
+            "currency": "USD",
+            "merchant": "George, Bautista and Stevenson",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "148.82.141.175",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "b6e1e7ac-9fc9-4264-b5af-bb2d336d7786",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-27 21:40:11",
+            "amount": 266.26,
+            "currency": "USD",
+            "merchant": "Parks-Morse",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "8.182.20.136",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "3f2dbf97-bc54-4d54-ac8d-e840ed305556",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-27 21:01:11",
+            "amount": 238.64,
+            "currency": "USD",
+            "merchant": "Woods LLC",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "202.14.119.148",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "72d35458-61ea-4f30-a42e-707afe2bd987",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-27 08:39:11",
+            "amount": 239.31,
+            "currency": "USD",
+            "merchant": "Bennett-Vega",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "192.172.136.46",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "93c09687-29e7-4176-a796-17c47520d99e",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-26 18:45:11",
+            "amount": 514.55,
+            "currency": "USD",
+            "merchant": "Ramos Group",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "170.214.204.253",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "ff0dd3c2-ac4d-4d33-9515-28af4d25298f",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-25 09:13:11",
+            "amount": 482.01,
+            "currency": "USD",
+            "merchant": "Archer, Owens and Mosley",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "124.246.174.233",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "4596da75-74df-483f-b659-f1886676cc75",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-24 18:10:11",
+            "amount": 265.39,
+            "currency": "USD",
+            "merchant": "Vaughn-Mendoza",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "181.86.64.88",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "9a690cad-aaab-4830-b9cf-c04f5b29317a",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-24 11:56:11",
+            "amount": 200.7,
+            "currency": "USD",
+            "merchant": "Archer-Dixon",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "19.117.9.82",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "406f64d6-5c72-4ebd-93b1-1e59c85cd714",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-23 19:20:11",
+            "amount": 462.51,
+            "currency": "USD",
+            "merchant": "Le Group",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "207.169.179.92",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "c847b130-dd56-430e-9de9-87a2985e7e89",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-23 03:39:11",
+            "amount": 260.91,
+            "currency": "USD",
+            "merchant": "Thornton-Edwards",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "105.99.134.19",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "cf7798cc-ef36-4eb1-bb8f-7b2bd91b1cb6",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-22 17:34:11",
+            "amount": 872.0,
+            "currency": "USD",
+            "merchant": "Graves Inc",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "28.137.176.165",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "d7e4527a-6274-4240-8e30-1bcc302fa247",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-21 18:18:11",
+            "amount": 392.21,
+            "currency": "USD",
+            "merchant": "Larsen-Moore",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "208.95.12.191",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "cd320878-e83e-43a0-9445-587e6ff6881f",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-21 13:37:11",
+            "amount": 578.41,
+            "currency": "USD",
+            "merchant": "Evans-Joyce",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "196.254.159.6",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "55ec024a-e64b-4b37-ae01-a122f269921c",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-20 01:49:11",
+            "amount": 211615.24,
+            "currency": "USD",
+            "merchant": "Davis, Kelly and Garner",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "149.52.76.202",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "5c56d9bc-5111-431d-a3be-441dbd5a0c9e",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-18 07:53:11",
+            "amount": 471.03,
+            "currency": "USD",
+            "merchant": "Davis LLC",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "145.67.218.123",
+            "payee_id": "PAY0005"
+        },
+        {
+            "transaction_id": "8208fd42-209c-44a5-931e-1d4d9abc9859",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-18 06:22:11",
+            "amount": 576.12,
+            "currency": "USD",
+            "merchant": "Sullivan Ltd",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "96.145.64.152",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "88d45ff4-104f-4fc5-a400-bb0ef2dd85f6",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-17 03:27:11",
+            "amount": 170.09,
+            "currency": "USD",
+            "merchant": "Lopez-Rodriguez",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "199.155.250.125",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "f544b28c-0bba-472a-8a7e-9cce56c890a5",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-17 00:18:11",
+            "amount": 524.46,
+            "currency": "USD",
+            "merchant": "Wu, Fitzgerald and Brewer",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "51.196.42.184",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "d25ad576-ef0b-443e-bee0-47627168bdec",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-16 05:41:11",
+            "amount": 495.39,
+            "currency": "USD",
+            "merchant": "Mahoney, Hill and Maxwell",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "65.173.59.73",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "69bd40d8-f340-4dd3-8515-75b9ece9504b",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-16 00:16:11",
+            "amount": 507.1,
+            "currency": "USD",
+            "merchant": "Newton and Sons",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "92.29.63.172",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "dbe83664-302f-420e-b874-05cab22f2e91",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-15 10:45:11",
+            "amount": 823.43,
+            "currency": "USD",
+            "merchant": "Clark Ltd",
+            "transaction_type": "debit",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "59.227.245.87",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "3af33cc5-b176-471f-b918-2c16a3863cd1",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-13 16:48:11",
+            "amount": 266.55,
+            "currency": "USD",
+            "merchant": "Hanson-Allen",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "195.83.120.178",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "03438b64-00b3-400f-bc08-899054a27051",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-13 09:37:11",
+            "amount": 211518.58,
+            "currency": "USD",
+            "merchant": "Davis, Rodriguez and Andrews",
+            "transaction_type": "credit-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "133.195.234.30",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "e66eb0e2-88fd-4890-a479-dce277eee00f",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-10 16:27:11",
+            "amount": 71.63,
+            "currency": "USD",
+            "merchant": "Rodriguez-White",
+            "transaction_type": "transfer",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "7.44.241.111",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "05eb074d-ad90-4360-9900-b745311d2ed4",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-10 15:06:11",
+            "amount": 218.57,
+            "currency": "USD",
+            "merchant": "Byrd, Mendez and Becker",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "155.85.215.244",
+            "payee_id": "PAY0004"
+        },
+        {
+            "transaction_id": "24caf1b8-394a-47fd-b28b-f8463b504fda",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-09 04:16:11",
+            "amount": 59.53,
+            "currency": "USD",
+            "merchant": "Scott, Cox and White",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "218.100.113.95",
+            "payee_id": "PAY0006"
+        },
+        {
+            "transaction_id": "45665e79-1a9a-4b54-a01a-5b5e592fcdc6",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-09 03:22:11",
+            "amount": 820.92,
+            "currency": "USD",
+            "merchant": "Stanley-Cantu",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "194.2.59.38",
+            "payee_id": "PAY0008"
+        },
+        {
+            "transaction_id": "22f3f068-7c0f-449d-8274-0f73f3abea0d",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-08 21:59:11",
+            "amount": 901.31,
+            "currency": "USD",
+            "merchant": "Ochoa PLC",
+            "transaction_type": "credit",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "201.162.244.29",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "89aa4293-34a0-4cd4-9a9a-f29ed5ee2587",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-08 07:53:11",
+            "amount": 418.47,
+            "currency": "USD",
+            "merchant": "Johns, Figueroa and Graham",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "41.215.29.119",
+            "payee_id": "PAY0001"
+        },
+        {
+            "transaction_id": "deba0297-41e1-4f65-a761-0e80f216880d",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-07 12:34:11",
+            "amount": 664.94,
+            "currency": "USD",
+            "merchant": "Walters, Pierce and Montoya",
+            "transaction_type": "loan-repayment",
+            "location": "Sudan",
+            "device_id": "DEV001_2",
+            "ip_address": "97.161.160.23",
+            "payee_id": "PAY0003"
+        },
+        {
+            "transaction_id": "333ee344-7dbf-4bc1-bfa6-23d0ea9e5c8d",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-07 03:27:10",
+            "amount": 115558.09,
+            "currency": "USD",
+            "merchant": "Taylor Inc",
+            "transaction_type": "transfer",
+            "location": "Puerto Rico",
+            "device_id": "DEV001_2",
+            "ip_address": "156.124.179.163",
+            "payee_id": "PAY0002"
+        },
+        {
+            "transaction_id": "8fc9c86b-e9dd-4bf5-a311-9aca848af440",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-07 02:31:10",
+            "amount": 206.72,
+            "currency": "USD",
+            "merchant": "Green LLC",
+            "transaction_type": "ATM Withdrawal",
+            "location": "Luxembourg",
+            "device_id": "DEV001_1",
+            "ip_address": "217.35.114.29",
+            "payee_id": "PAY0007"
+        },
+        {
+            "transaction_id": "0dfef633-2a31-4dfd-a166-7c7cd3c6e5a0",
+            "user_id": "U001",
+            "account_id": "ACC001_1",
+            "timestamp": "2025-06-06 19:31:11",
+            "amount": 176.71,
+            "currency": "USD",
+            "merchant": "Lucas-Lee",
+            "transaction_type": "loan",
+            "location": "Sudan",
+            "device_id": "DEV001_1",
+            "ip_address": "87.54.128.225",
+            "payee_id": "PAY0008"
+        }
+    ],
+    "query_9_sql": "SELECT * FROM transactions WHERE user_id = 'U001' ORDER BY timestamp DESC;",
+    "query_9_count": 89,
+    "query_10_results": [
+        {
+            "login_id": "4da7f632-0244-4c10-87d0-1cf295e81a39",
+            "user_id": "U001",
+            "timestamp": "2025-08-05 12:05:11",
+            "status": "success",
+            "ip_address": "107.230.24.244",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "68a57ee7-bb6e-4d06-9211-d6cc997d4ca9",
+            "user_id": "U001",
+            "timestamp": "2025-08-04 22:00:11",
+            "status": "success",
+            "ip_address": "97.255.224.240",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "a1f3a5bc-6580-44de-9bc0-04500ddf8da3",
+            "user_id": "U001",
+            "timestamp": "2025-08-04 19:22:11",
+            "status": "success",
+            "ip_address": "187.26.208.254",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "d6e75f73-468e-4df8-9d25-2141b03d01eb",
+            "user_id": "U001",
+            "timestamp": "2025-08-04 08:37:11",
+            "status": "success",
+            "ip_address": "175.20.28.96",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "f39dea6f-0691-4b1d-9da5-58735e85f364",
+            "user_id": "U001",
+            "timestamp": "2025-08-04 08:26:11",
+            "status": "success",
+            "ip_address": "216.105.67.8",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "de03a536-b703-4a9f-a15c-1c37e4ab9bae",
+            "user_id": "U001",
+            "timestamp": "2025-08-04 07:04:11",
+            "status": "success",
+            "ip_address": "212.190.189.173",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "a125151b-1ac7-4a5b-b387-a11d5286f977",
+            "user_id": "U001",
+            "timestamp": "2025-08-03 19:26:11",
+            "status": "success",
+            "ip_address": "160.32.89.248",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "53ae0bce-0ccc-4432-a913-ed3b7f5c62cc",
+            "user_id": "U001",
+            "timestamp": "2025-08-03 13:10:11",
+            "status": "success",
+            "ip_address": "128.235.49.141",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e93bf044-d292-4f7c-b624-013a11269f9e",
+            "user_id": "U001",
+            "timestamp": "2025-08-01 01:45:11",
+            "status": "success",
+            "ip_address": "155.146.3.165",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "98dd6c3c-e4ce-4832-8877-6e4b8f97b21d",
+            "user_id": "U001",
+            "timestamp": "2025-08-01 01:08:11",
+            "status": "success",
+            "ip_address": "73.65.104.173",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "b4cfdcd7-32a1-414d-86a4-9f8d74b8b222",
+            "user_id": "U001",
+            "timestamp": "2025-07-31 09:36:11",
+            "status": "success",
+            "ip_address": "213.54.124.90",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "c5bcc4cd-a1ad-4f14-bae1-9f9c0634e0e6",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 23:39:11",
+            "status": "success",
+            "ip_address": "216.183.250.88",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "d0fcb577-cec7-4674-8b19-f320b5230821",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 12:39:11",
+            "status": "success",
+            "ip_address": "44.47.230.244",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "cfcc2abd-3fac-4bcc-9ac9-2db2eed4d005",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 12:03:11",
+            "status": "success",
+            "ip_address": "201.176.180.110",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "7622f59a-dd20-425e-bbdc-dd1f343bf9ce",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 11:57:11",
+            "status": "success",
+            "ip_address": "165.179.39.180",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "e92af09b-d2f1-4f28-a61b-dc7d05112d7f",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 11:28:11",
+            "status": "success",
+            "ip_address": "169.236.90.143",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "0f4c7562-aa71-495c-b816-ee8a7cc27448",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 01:43:11",
+            "status": "success",
+            "ip_address": "174.68.131.6",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "0aaa3c51-1cd9-4b17-af51-270f346003a3",
+            "user_id": "U001",
+            "timestamp": "2025-07-30 00:59:11",
+            "status": "success",
+            "ip_address": "163.74.17.153",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "40349202-f34e-4ba1-9c07-605e57628c84",
+            "user_id": "U001",
+            "timestamp": "2025-07-29 10:42:11",
+            "status": "success",
+            "ip_address": "97.154.238.4",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "515a3eea-6f69-41cf-8196-66e9aea03292",
+            "user_id": "U001",
+            "timestamp": "2025-07-29 04:24:11",
+            "status": "success",
+            "ip_address": "131.45.160.10",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9175fc63-51f7-4017-b6a5-fabaa3e53892",
+            "user_id": "U001",
+            "timestamp": "2025-07-29 00:47:11",
+            "status": "success",
+            "ip_address": "9.133.105.98",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "2adfedf8-786f-486a-b90a-3610b0b55ce7",
+            "user_id": "U001",
+            "timestamp": "2025-07-28 21:09:11",
+            "status": "success",
+            "ip_address": "202.195.112.197",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "8a00c9be-55c5-474b-86fc-40c303cc0a33",
+            "user_id": "U001",
+            "timestamp": "2025-07-28 17:54:11",
+            "status": "success",
+            "ip_address": "169.232.122.33",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "61a651c5-faaa-43fc-894a-8492d88d11dd",
+            "user_id": "U001",
+            "timestamp": "2025-07-28 05:23:11",
+            "status": "success",
+            "ip_address": "142.161.14.205",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "2681e5bb-dfbb-4a43-a6da-916cd30606ae",
+            "user_id": "U001",
+            "timestamp": "2025-07-28 03:13:11",
+            "status": "success",
+            "ip_address": "214.102.90.117",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "27baa3dd-2c2b-45a3-ae89-bdbd53691c45",
+            "user_id": "U001",
+            "timestamp": "2025-07-27 22:53:11",
+            "status": "success",
+            "ip_address": "199.109.158.81",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "3fc543c9-7c47-4df2-bf55-f644f278b488",
+            "user_id": "U001",
+            "timestamp": "2025-07-27 22:51:11",
+            "status": "success",
+            "ip_address": "210.113.31.220",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e5fa855d-d320-4f77-a5bd-bb3e5639117a",
+            "user_id": "U001",
+            "timestamp": "2025-07-27 20:49:11",
+            "status": "success",
+            "ip_address": "179.114.221.208",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "c69aa024-7706-4602-9e5e-a4cd1426512f",
+            "user_id": "U001",
+            "timestamp": "2025-07-27 18:14:11",
+            "status": "success",
+            "ip_address": "118.28.192.110",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "502f4df3-dffd-4d40-841e-63d49cb11b59",
+            "user_id": "U001",
+            "timestamp": "2025-07-27 05:22:11",
+            "status": "success",
+            "ip_address": "30.87.157.35",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "5401e034-45ae-45d2-bbbf-d6926f125321",
+            "user_id": "U001",
+            "timestamp": "2025-07-27 01:23:11",
+            "status": "success",
+            "ip_address": "220.243.96.122",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "8f48de0a-3375-49d9-b879-7294437fdbd9",
+            "user_id": "U001",
+            "timestamp": "2025-07-26 16:32:11",
+            "status": "success",
+            "ip_address": "162.36.198.3",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "fa0d3875-9814-497c-9c02-5145968f8658",
+            "user_id": "U001",
+            "timestamp": "2025-07-26 16:12:11",
+            "status": "success",
+            "ip_address": "211.22.208.184",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "a5868874-4c31-47b6-96f3-05d7cece12fc",
+            "user_id": "U001",
+            "timestamp": "2025-07-26 09:44:11",
+            "status": "success",
+            "ip_address": "193.202.61.119",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "63796fa5-b84e-403d-b261-29777fe54edd",
+            "user_id": "U001",
+            "timestamp": "2025-07-26 03:00:11",
+            "status": "success",
+            "ip_address": "220.129.15.89",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "75ef8169-64a7-4279-8609-a880ef29c0f7",
+            "user_id": "U001",
+            "timestamp": "2025-07-26 01:39:11",
+            "status": "success",
+            "ip_address": "212.125.200.2",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e6fe01cc-5553-431a-afd9-d09a8a74a19a",
+            "user_id": "U001",
+            "timestamp": "2025-07-25 23:28:11",
+            "status": "success",
+            "ip_address": "159.147.156.156",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "34fe6da8-07e8-4429-a4fa-6417109792a4",
+            "user_id": "U001",
+            "timestamp": "2025-07-25 19:38:11",
+            "status": "success",
+            "ip_address": "215.215.108.190",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "4135b443-2576-4869-9765-f41889939c6e",
+            "user_id": "U001",
+            "timestamp": "2025-07-25 18:20:11",
+            "status": "success",
+            "ip_address": "211.251.83.25",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "73b6b143-9d96-46dd-af14-5b3606b63727",
+            "user_id": "U001",
+            "timestamp": "2025-07-25 09:01:11",
+            "status": "success",
+            "ip_address": "132.253.209.141",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "1f9bd2b4-66c4-4e9b-a483-f4f123f3e5c5",
+            "user_id": "U001",
+            "timestamp": "2025-07-25 07:04:11",
+            "status": "success",
+            "ip_address": "203.83.111.178",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "79eae461-0751-4daa-844a-2a482fe12ed8",
+            "user_id": "U001",
+            "timestamp": "2025-07-24 10:11:11",
+            "status": "success",
+            "ip_address": "206.208.206.189",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "17841919-3c29-49ed-b6bf-1f51f0abe316",
+            "user_id": "U001",
+            "timestamp": "2025-07-24 09:01:11",
+            "status": "success",
+            "ip_address": "173.173.35.13",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "2d3dab8a-7047-4d9d-9208-26b8611eb15c",
+            "user_id": "U001",
+            "timestamp": "2025-07-24 08:47:11",
+            "status": "success",
+            "ip_address": "203.199.128.45",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "55a47eab-3354-44be-82c9-1aaf6be13e78",
+            "user_id": "U001",
+            "timestamp": "2025-07-24 08:25:11",
+            "status": "success",
+            "ip_address": "85.24.81.12",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "dd8b6c69-60c3-46eb-9fd6-39e685f970f7",
+            "user_id": "U001",
+            "timestamp": "2025-07-23 16:04:11",
+            "status": "success",
+            "ip_address": "191.108.249.87",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "7d6448b2-f12d-4664-9d65-5951352aa2af",
+            "user_id": "U001",
+            "timestamp": "2025-07-22 21:26:11",
+            "status": "success",
+            "ip_address": "212.133.199.174",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e915a8f9-9d48-4c49-b53f-d2d34df67205",
+            "user_id": "U001",
+            "timestamp": "2025-07-22 03:58:11",
+            "status": "success",
+            "ip_address": "15.108.195.129",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "4bc6fdb9-8a49-4bbd-a086-ba870bf2598c",
+            "user_id": "U001",
+            "timestamp": "2025-07-22 02:51:11",
+            "status": "success",
+            "ip_address": "129.12.117.220",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "595b9abc-1b97-4332-8a9b-37f0ef5e4a66",
+            "user_id": "U001",
+            "timestamp": "2025-07-22 02:33:11",
+            "status": "success",
+            "ip_address": "213.91.56.108",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "c3b5b2bd-1eec-4d0d-b5a8-edd7c9b49d09",
+            "user_id": "U001",
+            "timestamp": "2025-07-22 01:12:11",
+            "status": "success",
+            "ip_address": "194.204.179.115",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "f5cca86b-92e9-4aa7-b7b8-a5e480a5fe0d",
+            "user_id": "U001",
+            "timestamp": "2025-07-21 09:11:11",
+            "status": "success",
+            "ip_address": "110.102.239.73",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "3db8014a-8dc5-4246-a85d-938be64f8ec0",
+            "user_id": "U001",
+            "timestamp": "2025-07-21 05:56:11",
+            "status": "success",
+            "ip_address": "209.178.247.91",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "237c56bb-48d1-40c6-9cdc-546cd4f0fd63",
+            "user_id": "U001",
+            "timestamp": "2025-07-21 04:14:11",
+            "status": "success",
+            "ip_address": "122.20.113.143",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "2449ea0f-5e6b-4e56-ba23-53358d759038",
+            "user_id": "U001",
+            "timestamp": "2025-07-21 03:36:11",
+            "status": "success",
+            "ip_address": "166.0.30.117",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "554047fe-5cb9-435c-b5f7-3b073a4962d1",
+            "user_id": "U001",
+            "timestamp": "2025-07-20 20:33:11",
+            "status": "success",
+            "ip_address": "48.147.225.10",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "6094d74c-7846-49c5-95a8-cb98ab2d96a0",
+            "user_id": "U001",
+            "timestamp": "2025-07-20 12:23:11",
+            "status": "success",
+            "ip_address": "145.232.10.107",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "293572d3-fb63-43cb-8c35-bf2dec4fa141",
+            "user_id": "U001",
+            "timestamp": "2025-07-20 09:09:11",
+            "status": "success",
+            "ip_address": "202.34.50.214",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "ac0fa13a-8332-41b9-b42d-157f07e79181",
+            "user_id": "U001",
+            "timestamp": "2025-07-19 23:58:11",
+            "status": "success",
+            "ip_address": "195.86.232.119",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "50581a4a-5771-4fff-8971-4ec3cbbd3732",
+            "user_id": "U001",
+            "timestamp": "2025-07-19 20:38:11",
+            "status": "success",
+            "ip_address": "90.242.8.189",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "f4aae84a-d538-4419-a798-d9bf4ce1ca16",
+            "user_id": "U001",
+            "timestamp": "2025-07-19 13:37:11",
+            "status": "success",
+            "ip_address": "214.97.144.140",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "a8f0e3e0-2f36-4832-a11b-92ab34aababd",
+            "user_id": "U001",
+            "timestamp": "2025-07-19 11:07:11",
+            "status": "success",
+            "ip_address": "185.195.197.231",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9bcde988-ce25-4281-81a4-dce0c8009f5e",
+            "user_id": "U001",
+            "timestamp": "2025-07-19 09:38:11",
+            "status": "success",
+            "ip_address": "115.225.89.30",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "cb59b151-5dde-4466-bf03-66ef702724eb",
+            "user_id": "U001",
+            "timestamp": "2025-07-19 07:18:11",
+            "status": "success",
+            "ip_address": "219.201.4.139",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "b6db95fb-8d73-4aa2-8ab8-32eabac70b9c",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 23:29:11",
+            "status": "success",
+            "ip_address": "35.100.244.34",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "2b9fff6a-e666-49b4-9e53-64dc7a1afd67",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 21:02:11",
+            "status": "success",
+            "ip_address": "186.14.182.250",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e27f7dc7-aa0b-46ea-9b0b-249da159bef3",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 18:57:11",
+            "status": "success",
+            "ip_address": "199.162.179.106",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "f1668e89-59f7-471a-894b-08d20f1536da",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 17:05:11",
+            "status": "success",
+            "ip_address": "200.60.106.251",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "5d764bc4-03f5-4e71-8ada-fd4adc2f952c",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 15:41:11",
+            "status": "success",
+            "ip_address": "101.73.137.205",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "728c0b4a-fc16-482a-b682-4487ef4588c3",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 14:18:11",
+            "status": "success",
+            "ip_address": "167.220.44.148",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "7b2e329d-9f80-4d12-a996-06d23e141965",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 10:04:11",
+            "status": "success",
+            "ip_address": "218.11.239.141",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "48f79726-61ae-4255-af95-94898af2820e",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 07:24:11",
+            "status": "success",
+            "ip_address": "202.223.255.43",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "930e7347-ff70-4baa-80e5-1b3d90be35ee",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 04:55:11",
+            "status": "success",
+            "ip_address": "207.88.58.99",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "f7974ec8-a41e-4111-9942-96b67e4b4f10",
+            "user_id": "U001",
+            "timestamp": "2025-07-18 03:54:11",
+            "status": "success",
+            "ip_address": "19.73.172.251",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "a00d1e18-aead-403f-afad-3d7ea4bfa846",
+            "user_id": "U001",
+            "timestamp": "2025-07-17 22:15:11",
+            "status": "success",
+            "ip_address": "103.19.202.131",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "eb01bba7-4b81-4a84-b42f-790ed4bee4e4",
+            "user_id": "U001",
+            "timestamp": "2025-07-17 14:36:11",
+            "status": "success",
+            "ip_address": "39.173.27.78",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "9361b11d-8352-4aba-8a64-cfccdcf315c6",
+            "user_id": "U001",
+            "timestamp": "2025-07-17 11:18:11",
+            "status": "success",
+            "ip_address": "204.46.16.71",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "c7f2a172-affc-4532-9846-06250effa0c1",
+            "user_id": "U001",
+            "timestamp": "2025-07-16 22:35:11",
+            "status": "success",
+            "ip_address": "172.95.137.235",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "da1eb729-078e-4e4e-8b80-79d7114c440d",
+            "user_id": "U001",
+            "timestamp": "2025-07-16 18:17:11",
+            "status": "success",
+            "ip_address": "211.22.219.248",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "25ce5ac5-1e22-46b2-a009-48279672663f",
+            "user_id": "U001",
+            "timestamp": "2025-07-16 10:41:11",
+            "status": "success",
+            "ip_address": "11.64.145.116",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "50833557-fc3b-4f4d-be42-db8f4e5aef22",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 23:39:11",
+            "status": "success",
+            "ip_address": "180.64.67.243",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "72a4bac6-9288-48f6-8c38-f15a66a247b7",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 20:28:11",
+            "status": "success",
+            "ip_address": "217.231.128.113",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "8a3e50b5-938d-47c1-ab0b-74fc99b06cf9",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 14:22:11",
+            "status": "success",
+            "ip_address": "132.231.19.245",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "1c84f34f-13a2-4c03-a14b-400fd87356e9",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 14:20:11",
+            "status": "success",
+            "ip_address": "13.59.186.62",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "20f6b8d8-9436-4f5d-89cc-6b08cba9a0f0",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 07:18:11",
+            "status": "success",
+            "ip_address": "9.231.39.201",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "fc9b519a-d3a8-4c4f-93ec-156291c069ee",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 05:51:11",
+            "status": "success",
+            "ip_address": "2.250.210.148",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "68d0a2a8-c4e7-47dd-a929-de738693fd9d",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 04:19:10",
+            "status": "success",
+            "ip_address": "218.37.23.54",
+            "device_id": "b5a5f8e6-b639-4f04-a852-4385d9f2dd0d"
+        },
+        {
+            "login_id": "2c913a7c-a340-4f08-b341-91b8ed6522b4",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 04:15:10",
+            "status": "failure",
+            "ip_address": "179.226.51.129",
+            "device_id": "b5a5f8e6-b639-4f04-a852-4385d9f2dd0d"
+        },
+        {
+            "login_id": "5e70f65f-9280-45aa-8dd4-595b5c63b6f3",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 04:14:10",
+            "status": "failure",
+            "ip_address": "162.19.138.254",
+            "device_id": "b5a5f8e6-b639-4f04-a852-4385d9f2dd0d"
+        },
+        {
+            "login_id": "238d6f44-cac4-40eb-b373-730efc31a597",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 04:12:10",
+            "status": "failure",
+            "ip_address": "16.215.81.154",
+            "device_id": "b5a5f8e6-b639-4f04-a852-4385d9f2dd0d"
+        },
+        {
+            "login_id": "10d4de39-1612-47c9-a25d-f9a89ca8a5c4",
+            "user_id": "U001",
+            "timestamp": "2025-07-15 04:12:10",
+            "status": "failure",
+            "ip_address": "158.162.114.250",
+            "device_id": "b5a5f8e6-b639-4f04-a852-4385d9f2dd0d"
+        },
+        {
+            "login_id": "ae973869-2ea1-41aa-bcf7-bbc28e38440e",
+            "user_id": "U001",
+            "timestamp": "2025-07-14 23:28:11",
+            "status": "success",
+            "ip_address": "108.140.192.46",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "c8347776-04ca-43d1-b506-e337683d21a9",
+            "user_id": "U001",
+            "timestamp": "2025-07-14 22:56:11",
+            "status": "success",
+            "ip_address": "184.202.231.167",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "805aadb5-fd91-4a63-9ca4-2a3ce177105f",
+            "user_id": "U001",
+            "timestamp": "2025-07-14 13:39:11",
+            "status": "success",
+            "ip_address": "211.82.116.126",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "b5b25ed1-af1b-4316-ba0e-681bbd5db7a4",
+            "user_id": "U001",
+            "timestamp": "2025-07-14 07:30:11",
+            "status": "success",
+            "ip_address": "148.212.200.175",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "48504c6b-12cd-4aeb-b907-6ff3263a484e",
+            "user_id": "U001",
+            "timestamp": "2025-07-14 04:13:11",
+            "status": "success",
+            "ip_address": "183.167.248.28",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "130f0872-966f-4d47-8321-4b1455928cd5",
+            "user_id": "U001",
+            "timestamp": "2025-07-13 12:52:11",
+            "status": "success",
+            "ip_address": "144.234.216.90",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "6a6c0216-16f3-41c8-9924-9d85fd9c70c3",
+            "user_id": "U001",
+            "timestamp": "2025-07-12 18:17:11",
+            "status": "success",
+            "ip_address": "196.75.205.223",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "2223ab94-f157-4169-83ad-6ffdb4479e70",
+            "user_id": "U001",
+            "timestamp": "2025-07-12 06:36:11",
+            "status": "success",
+            "ip_address": "156.239.102.3",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "5147c3ba-2f87-4748-961f-77a1bac3d057",
+            "user_id": "U001",
+            "timestamp": "2025-07-11 12:36:11",
+            "status": "success",
+            "ip_address": "200.20.151.6",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "47dbf6a2-03e3-4f78-a85f-da5521c268f3",
+            "user_id": "U001",
+            "timestamp": "2025-07-11 07:02:11",
+            "status": "success",
+            "ip_address": "199.43.203.124",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "e10d1490-7c8c-4267-bc55-ad3a4ed992e0",
+            "user_id": "U001",
+            "timestamp": "2025-07-10 23:24:11",
+            "status": "success",
+            "ip_address": "169.101.118.216",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "94ebae5d-bc16-4b0e-bb17-b288e9052c4b",
+            "user_id": "U001",
+            "timestamp": "2025-07-10 18:14:11",
+            "status": "success",
+            "ip_address": "195.243.86.234",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "070f48c2-ba4e-432f-a582-eba2f2859a73",
+            "user_id": "U001",
+            "timestamp": "2025-07-10 15:32:11",
+            "status": "success",
+            "ip_address": "207.114.87.3",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "f2bd509b-564d-46b6-81c7-ea8b267fc6ec",
+            "user_id": "U001",
+            "timestamp": "2025-07-09 21:26:11",
+            "status": "success",
+            "ip_address": "205.148.182.38",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9a00a4e2-f5ed-4b7f-9787-6a50ab7a63e3",
+            "user_id": "U001",
+            "timestamp": "2025-07-09 13:28:11",
+            "status": "success",
+            "ip_address": "204.196.202.204",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "c5001e3e-f59d-4194-9021-7062a8179850",
+            "user_id": "U001",
+            "timestamp": "2025-07-08 14:45:11",
+            "status": "success",
+            "ip_address": "191.85.94.206",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "2c47a51f-68c4-451a-8166-356cb04fbce9",
+            "user_id": "U001",
+            "timestamp": "2025-07-08 08:53:11",
+            "status": "success",
+            "ip_address": "203.16.26.106",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "d45f8e7f-0af8-4147-bf44-ea67f0cf9990",
+            "user_id": "U001",
+            "timestamp": "2025-07-08 04:33:11",
+            "status": "success",
+            "ip_address": "186.204.187.161",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "ac58d464-eb16-4eb0-8434-917090f43724",
+            "user_id": "U001",
+            "timestamp": "2025-07-07 18:31:11",
+            "status": "success",
+            "ip_address": "145.98.53.113",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "4b80a8c6-ce31-46c3-941a-cd27246f5c1d",
+            "user_id": "U001",
+            "timestamp": "2025-07-07 16:49:11",
+            "status": "success",
+            "ip_address": "199.199.51.138",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "80c0e667-9e18-43a2-b708-eb7fcc274beb",
+            "user_id": "U001",
+            "timestamp": "2025-07-06 20:12:11",
+            "status": "success",
+            "ip_address": "161.181.152.45",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "d736b50e-4ebc-4f60-b687-f1e1f53ca48b",
+            "user_id": "U001",
+            "timestamp": "2025-07-06 14:01:11",
+            "status": "success",
+            "ip_address": "103.67.18.112",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "5ac9c4d4-96be-441b-8b0a-e00f4462ecae",
+            "user_id": "U001",
+            "timestamp": "2025-07-05 12:59:11",
+            "status": "success",
+            "ip_address": "48.141.190.195",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "12431159-1df5-4402-892c-a61297affdcd",
+            "user_id": "U001",
+            "timestamp": "2025-07-05 06:54:11",
+            "status": "success",
+            "ip_address": "169.105.23.92",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "231f1676-98a7-477b-a149-90edabe07080",
+            "user_id": "U001",
+            "timestamp": "2025-07-05 03:25:11",
+            "status": "success",
+            "ip_address": "133.228.119.143",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "8c0dc409-dfcc-4eb4-bfbe-089223ce37db",
+            "user_id": "U001",
+            "timestamp": "2025-07-05 00:13:11",
+            "status": "success",
+            "ip_address": "146.253.248.4",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "35e0edd6-84c6-4e4b-8c99-5e2da7a998ab",
+            "user_id": "U001",
+            "timestamp": "2025-07-04 10:11:11",
+            "status": "success",
+            "ip_address": "181.6.21.255",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "8bc15738-ff1b-46a0-a8ec-b6a17233bf8c",
+            "user_id": "U001",
+            "timestamp": "2025-07-03 23:17:11",
+            "status": "success",
+            "ip_address": "191.74.202.118",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "afa1ff17-58a6-4190-9527-ed08ce65050b",
+            "user_id": "U001",
+            "timestamp": "2025-07-03 08:38:11",
+            "status": "success",
+            "ip_address": "220.241.114.131",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "0657894f-0c95-4522-81f7-35177c4a42db",
+            "user_id": "U001",
+            "timestamp": "2025-07-03 06:40:11",
+            "status": "success",
+            "ip_address": "201.52.92.37",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "f5418b22-e363-45fc-899f-7cfbef6f5d6a",
+            "user_id": "U001",
+            "timestamp": "2025-07-02 23:42:11",
+            "status": "success",
+            "ip_address": "25.249.41.154",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9c028ab7-8068-4766-9f40-ae0ae1cbad85",
+            "user_id": "U001",
+            "timestamp": "2025-07-02 09:33:11",
+            "status": "success",
+            "ip_address": "182.133.233.97",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "601caf82-faa5-4b3b-8c28-3b621131f87f",
+            "user_id": "U001",
+            "timestamp": "2025-07-02 04:44:11",
+            "status": "success",
+            "ip_address": "199.245.141.16",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "6cc1da4d-d041-4dec-aab9-ba0f76c6533e",
+            "user_id": "U001",
+            "timestamp": "2025-07-02 02:44:11",
+            "status": "success",
+            "ip_address": "93.64.214.10",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "f7eefd84-b31c-4349-9799-2f42351b3e63",
+            "user_id": "U001",
+            "timestamp": "2025-07-02 02:26:11",
+            "status": "success",
+            "ip_address": "206.38.207.81",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "4d83b055-17ac-420e-8626-d3bea9fc73da",
+            "user_id": "U001",
+            "timestamp": "2025-07-02 01:59:11",
+            "status": "success",
+            "ip_address": "121.138.245.156",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "42442fce-2686-45c6-ad59-ade75287c72e",
+            "user_id": "U001",
+            "timestamp": "2025-07-01 09:56:11",
+            "status": "success",
+            "ip_address": "52.231.84.136",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "3b162773-7ab4-47d6-a975-cef79d3f904a",
+            "user_id": "U001",
+            "timestamp": "2025-07-01 06:05:11",
+            "status": "success",
+            "ip_address": "209.238.13.18",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "cf9b6d33-be00-465d-9bad-43317366c606",
+            "user_id": "U001",
+            "timestamp": "2025-07-01 00:28:11",
+            "status": "success",
+            "ip_address": "147.55.63.235",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "84c84c23-676e-44be-b8be-c228c455da79",
+            "user_id": "U001",
+            "timestamp": "2025-06-30 21:24:11",
+            "status": "success",
+            "ip_address": "222.151.198.236",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "997bd7bb-9a58-431a-8663-686eee70e803",
+            "user_id": "U001",
+            "timestamp": "2025-06-30 17:29:11",
+            "status": "success",
+            "ip_address": "102.97.112.231",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "6e06f176-d140-4967-8d53-48d15b15674d",
+            "user_id": "U001",
+            "timestamp": "2025-06-30 04:46:11",
+            "status": "success",
+            "ip_address": "207.125.107.163",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "2977fb6e-29d2-45d6-8c03-b6d6f27eec3b",
+            "user_id": "U001",
+            "timestamp": "2025-06-29 22:56:11",
+            "status": "success",
+            "ip_address": "206.62.30.35",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "6e96f611-e00c-44a3-b826-ad580e98686d",
+            "user_id": "U001",
+            "timestamp": "2025-06-29 21:27:11",
+            "status": "success",
+            "ip_address": "138.194.2.223",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "d5bd2de2-e751-4ccf-9358-a5d7eb34d8de",
+            "user_id": "U001",
+            "timestamp": "2025-06-29 16:21:11",
+            "status": "success",
+            "ip_address": "193.234.181.248",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "dcc8c801-8c57-4243-b69f-ce1ae67d9f00",
+            "user_id": "U001",
+            "timestamp": "2025-06-29 05:51:11",
+            "status": "success",
+            "ip_address": "147.164.59.161",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "fa4fa66c-4d7f-4dfb-83c2-e3e56150e216",
+            "user_id": "U001",
+            "timestamp": "2025-06-29 03:16:11",
+            "status": "success",
+            "ip_address": "32.95.193.3",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "3cad3401-9c00-4b52-97c4-0530b5465c93",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 18:18:11",
+            "status": "success",
+            "ip_address": "125.225.6.207",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "3fbfe7eb-883d-4b03-9e04-d08643a29acd",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 16:29:11",
+            "status": "success",
+            "ip_address": "147.195.113.239",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "49a1f7a1-8571-4253-9956-ad9b3dc87f79",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 15:31:11",
+            "status": "success",
+            "ip_address": "166.236.130.97",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "664d49fa-94b5-4339-84c1-1826d910498c",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 13:42:11",
+            "status": "success",
+            "ip_address": "207.24.201.223",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "ab9737ef-ffc1-4e7b-b17a-273b941eddf9",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 12:30:11",
+            "status": "success",
+            "ip_address": "177.153.206.211",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "0bc6a71b-f25b-46a6-b89c-2ef6f3b93ebe",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 11:33:11",
+            "status": "success",
+            "ip_address": "223.149.215.191",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "59259acd-4142-400e-aff6-fa9a16e6e8fc",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 10:27:11",
+            "status": "success",
+            "ip_address": "108.40.98.1",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "ebd92165-73cd-4e91-af5b-46f7449c230d",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 06:42:11",
+            "status": "success",
+            "ip_address": "138.233.105.140",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "0f6924f3-2f53-4a9f-8e0a-e1dd5b95ae5e",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 04:47:11",
+            "status": "success",
+            "ip_address": "162.49.131.10",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "05722bc5-4b5e-4a40-9a5a-897790ba1d38",
+            "user_id": "U001",
+            "timestamp": "2025-06-28 01:50:11",
+            "status": "success",
+            "ip_address": "196.199.30.40",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "ed696cb3-b774-461d-a641-01fa5d0607cc",
+            "user_id": "U001",
+            "timestamp": "2025-06-27 21:36:11",
+            "status": "success",
+            "ip_address": "201.194.155.94",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "cba20d38-7db4-490d-99c5-9f2d640b7b85",
+            "user_id": "U001",
+            "timestamp": "2025-06-27 15:58:11",
+            "status": "success",
+            "ip_address": "119.200.198.90",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "aec61694-0f24-4491-8e9f-f74afb6503ea",
+            "user_id": "U001",
+            "timestamp": "2025-06-27 09:37:11",
+            "status": "success",
+            "ip_address": "128.28.83.131",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "2b85ffb7-b29e-4126-8840-e78a35ec5514",
+            "user_id": "U001",
+            "timestamp": "2025-06-27 02:45:11",
+            "status": "success",
+            "ip_address": "220.228.222.182",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "377f35c1-076f-432f-bc28-29392bae3b70",
+            "user_id": "U001",
+            "timestamp": "2025-06-27 00:33:11",
+            "status": "success",
+            "ip_address": "180.55.201.148",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "46cbeb60-37d7-4d4a-b718-a6ad2209cd5f",
+            "user_id": "U001",
+            "timestamp": "2025-06-26 23:49:11",
+            "status": "success",
+            "ip_address": "45.115.255.133",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "323eab00-9fe7-4bb8-b8cb-74696142894a",
+            "user_id": "U001",
+            "timestamp": "2025-06-26 19:18:11",
+            "status": "success",
+            "ip_address": "98.176.110.89",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "c173d1d9-18d9-4279-b1e5-38a4e8c0563d",
+            "user_id": "U001",
+            "timestamp": "2025-06-26 02:52:11",
+            "status": "success",
+            "ip_address": "88.97.120.134",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "910a8ebf-a909-4889-a42c-fe330a39561f",
+            "user_id": "U001",
+            "timestamp": "2025-06-25 05:22:11",
+            "status": "success",
+            "ip_address": "85.155.85.186",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "75e7f531-1e26-4c3d-b514-083ef8b53c16",
+            "user_id": "U001",
+            "timestamp": "2025-06-25 04:28:11",
+            "status": "success",
+            "ip_address": "133.198.9.247",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "fedceb65-84aa-4e12-a08a-9c4f3366da87",
+            "user_id": "U001",
+            "timestamp": "2025-06-25 00:42:11",
+            "status": "success",
+            "ip_address": "120.223.239.177",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "de74e122-4aed-4cc8-8d28-eef5c7bbbcf8",
+            "user_id": "U001",
+            "timestamp": "2025-06-24 17:11:11",
+            "status": "success",
+            "ip_address": "216.143.166.23",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "54f5e2f0-9e9a-4e40-ba49-ccd561853b1a",
+            "user_id": "U001",
+            "timestamp": "2025-06-24 15:39:11",
+            "status": "success",
+            "ip_address": "209.57.226.12",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9f3e0f38-ad73-486b-b517-aed049b04036",
+            "user_id": "U001",
+            "timestamp": "2025-06-24 08:49:11",
+            "status": "success",
+            "ip_address": "12.24.254.215",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "1a8709bd-1fc2-4099-8994-96ab6db7fa7e",
+            "user_id": "U001",
+            "timestamp": "2025-06-23 07:56:11",
+            "status": "success",
+            "ip_address": "19.147.187.122",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "07fcb800-da49-4408-8011-be30e268d92f",
+            "user_id": "U001",
+            "timestamp": "2025-06-22 20:20:11",
+            "status": "success",
+            "ip_address": "208.91.217.17",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "bff9e3b2-8e79-4982-9a5d-5ace61d9407c",
+            "user_id": "U001",
+            "timestamp": "2025-06-22 08:10:11",
+            "status": "success",
+            "ip_address": "152.114.192.252",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "80e1cc41-8a9a-427f-b2a1-2a5551a0bd7c",
+            "user_id": "U001",
+            "timestamp": "2025-06-21 14:56:11",
+            "status": "success",
+            "ip_address": "90.75.26.16",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "8da40d27-457f-4a84-9133-ded481e60c4c",
+            "user_id": "U001",
+            "timestamp": "2025-06-21 14:43:11",
+            "status": "success",
+            "ip_address": "192.101.21.170",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "92419671-da2f-499b-a923-895d08429e20",
+            "user_id": "U001",
+            "timestamp": "2025-06-21 11:52:11",
+            "status": "success",
+            "ip_address": "54.25.97.200",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "db643c30-d5dc-4812-902e-a8c3df9f1099",
+            "user_id": "U001",
+            "timestamp": "2025-06-20 23:21:11",
+            "status": "success",
+            "ip_address": "191.162.4.175",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "e037e953-6d2d-4cb9-a452-b5591246d2a5",
+            "user_id": "U001",
+            "timestamp": "2025-06-20 19:55:11",
+            "status": "success",
+            "ip_address": "148.230.10.72",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "7077d33e-d04c-44db-a70a-4855d0b6eada",
+            "user_id": "U001",
+            "timestamp": "2025-06-19 12:45:11",
+            "status": "success",
+            "ip_address": "219.194.117.115",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "96af3fcb-b3eb-4780-891d-95c77e29d9a1",
+            "user_id": "U001",
+            "timestamp": "2025-06-18 00:27:11",
+            "status": "success",
+            "ip_address": "203.237.190.147",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "ef15627d-aa21-4e30-bcd7-715004621030",
+            "user_id": "U001",
+            "timestamp": "2025-06-17 14:31:11",
+            "status": "success",
+            "ip_address": "189.76.13.73",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "f1cf851b-ad02-44a0-880c-28ad0c11f642",
+            "user_id": "U001",
+            "timestamp": "2025-06-16 21:01:11",
+            "status": "success",
+            "ip_address": "151.131.237.134",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9df20554-36ba-4892-ac90-5f13ba7e6b51",
+            "user_id": "U001",
+            "timestamp": "2025-06-16 18:51:11",
+            "status": "success",
+            "ip_address": "196.195.145.80",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "3933c2ed-9c66-45cd-b939-8e8e25fc57c7",
+            "user_id": "U001",
+            "timestamp": "2025-06-16 15:21:11",
+            "status": "success",
+            "ip_address": "208.224.88.59",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "ee9836b7-8677-498c-944a-14584019a1f6",
+            "user_id": "U001",
+            "timestamp": "2025-06-16 10:14:11",
+            "status": "success",
+            "ip_address": "146.195.4.3",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9d70773e-dcd9-469f-b897-59ef170d5c13",
+            "user_id": "U001",
+            "timestamp": "2025-06-16 07:06:11",
+            "status": "success",
+            "ip_address": "154.0.5.87",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "f05ad4ec-33f9-4264-9e5e-d279cd2c614b",
+            "user_id": "U001",
+            "timestamp": "2025-06-15 23:43:11",
+            "status": "success",
+            "ip_address": "112.57.79.201",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "108d1f04-2948-4bda-8119-9d43480d0cf3",
+            "user_id": "U001",
+            "timestamp": "2025-06-15 02:29:11",
+            "status": "success",
+            "ip_address": "86.7.192.247",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "692981b1-3fa1-492a-907b-bb8e6bd6f684",
+            "user_id": "U001",
+            "timestamp": "2025-06-15 00:55:11",
+            "status": "success",
+            "ip_address": "200.102.104.148",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "48e23143-fb1e-4a6e-919b-1b23d6023639",
+            "user_id": "U001",
+            "timestamp": "2025-06-14 01:49:11",
+            "status": "success",
+            "ip_address": "7.66.128.197",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "923ccd64-1757-4cc8-a90f-b2bdf4585d04",
+            "user_id": "U001",
+            "timestamp": "2025-06-14 01:43:11",
+            "status": "success",
+            "ip_address": "206.40.103.194",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e1eaf0f2-4c52-495c-a146-e7b4a5fb9e9a",
+            "user_id": "U001",
+            "timestamp": "2025-06-12 20:36:11",
+            "status": "success",
+            "ip_address": "210.28.208.63",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "9ed0fe5f-b3bc-4791-8882-f6eba254da12",
+            "user_id": "U001",
+            "timestamp": "2025-06-11 05:56:11",
+            "status": "success",
+            "ip_address": "11.53.38.218",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "40e07e0f-7cfb-4186-877b-4fffd114dda1",
+            "user_id": "U001",
+            "timestamp": "2025-06-10 20:46:11",
+            "status": "success",
+            "ip_address": "220.167.173.130",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "6f850440-0e91-4294-a3a9-9752ed167ec3",
+            "user_id": "U001",
+            "timestamp": "2025-06-09 15:56:11",
+            "status": "success",
+            "ip_address": "162.118.248.224",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "4d9e3b99-590c-4cdc-b455-767a9623d848",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 23:42:11",
+            "status": "success",
+            "ip_address": "214.109.248.46",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "4237a5ff-bbb8-40de-a025-e80b42f8bae4",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 19:39:11",
+            "status": "success",
+            "ip_address": "223.40.18.201",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "875b2fe1-e3bb-4eb7-a404-45a187e7099b",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 14:33:11",
+            "status": "success",
+            "ip_address": "205.146.195.2",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "ed7403c6-4cd0-432e-af4b-88ff1a58c6ae",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 12:43:11",
+            "status": "success",
+            "ip_address": "212.242.118.196",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "0e8db9f5-e514-4d91-8127-8cf9803bd70b",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 06:12:11",
+            "status": "success",
+            "ip_address": "131.24.19.102",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "e21734c6-d36f-41c9-8caa-2cd36ae71db3",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 01:56:11",
+            "status": "success",
+            "ip_address": "116.21.21.241",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "2afcc87e-1ff4-4019-ac4a-770107d7a393",
+            "user_id": "U001",
+            "timestamp": "2025-06-08 01:45:11",
+            "status": "success",
+            "ip_address": "170.180.33.4",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "371e7782-5e38-4274-8db4-a7fa18e43d85",
+            "user_id": "U001",
+            "timestamp": "2025-06-07 16:02:11",
+            "status": "success",
+            "ip_address": "221.138.146.183",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "0f4e2726-b9dd-478e-93e7-acd97b163453",
+            "user_id": "U001",
+            "timestamp": "2025-06-07 14:15:11",
+            "status": "success",
+            "ip_address": "160.163.116.244",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "3ea7d639-8503-43b7-9700-7953e2aef508",
+            "user_id": "U001",
+            "timestamp": "2025-06-07 11:58:11",
+            "status": "success",
+            "ip_address": "138.63.233.36",
+            "device_id": "DEV001_1"
+        },
+        {
+            "login_id": "ddef6430-845f-4d5d-ac22-919cfbc07564",
+            "user_id": "U001",
+            "timestamp": "2025-06-07 07:17:11",
+            "status": "success",
+            "ip_address": "196.217.46.106",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "e88081f9-cd6b-4aa0-8e9f-bfeb9a87e44d",
+            "user_id": "U001",
+            "timestamp": "2025-06-07 03:27:11",
+            "status": "success",
+            "ip_address": "191.39.76.161",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "63247e63-7535-4dc2-8555-b4b58eb58d5c",
+            "user_id": "U001",
+            "timestamp": "2025-06-07 01:31:11",
+            "status": "success",
+            "ip_address": "182.95.34.97",
+            "device_id": "DEV001_2"
+        },
+        {
+            "login_id": "31e43850-86a8-4b2b-9c69-ee49712c3126",
+            "user_id": "U001",
+            "timestamp": "2025-06-06 22:55:11",
+            "status": "success",
+            "ip_address": "53.5.89.163",
+            "device_id": "DEV001_2"
+        }
+    ],
+    "query_10_sql": "SELECT * FROM login_attempts WHERE user_id = 'U001' ORDER BY timestamp DESC;",
+    "query_10_count": 201,
+    "query_11_results": [
+        {
+            "account_id": "ACC001_1",
+            "user_id": "U001",
+            "account_type": "savings",
+            "current_balance": 7837.36,
+            "is_active": 1
+        }
+    ],
+    "query_11_sql": "SELECT * FROM accounts WHERE account_id = 'ACC001_1';",
+    "query_11_count": 1,
+    "query_12_results": [
+        {
+            "device_id": "DEV001_1",
+            "device_type": "tablet",
+            "os": "iOS",
+            "last_seen_ip": "216.205.10.74"
+        },
+        {
+            "device_id": "DEV001_2",
+            "device_type": "mobile",
+            "os": "Windows",
+            "last_seen_ip": "70.143.71.233"
+        }
+    ],
+    "query_12_sql": "SELECT d.* FROM devices d JOIN user_devices ud ON d.device_id = ud.device_id WHERE ud.user_id = 'U001';",
+    "query_12_count": 2
+}

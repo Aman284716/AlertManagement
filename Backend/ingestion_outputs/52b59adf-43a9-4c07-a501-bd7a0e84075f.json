@@ -1,0 +1,39 @@
+{
+    "historical_new_payee_events": [
+        {
+            "transaction_id": "9d4b2bf9-4d85-49c7-a001-7720200b2903",
+            "timestamp": "2025-08-06 13:52:10",
+            "amount": 71728.19,
+            "payee_id": "PAY0063",
+            "date_added_by_user": "2025-08-06"
+        },
+        {
+            "transaction_id": "4e1f39be-e4ed-4295-afd3-7a6d0c746518",
+            "timestamp": "2025-06-27 15:51:11",
+            "amount": 53396.06,
+            "payee_id": "PAY0029",
+            "date_added_by_user": "2025-06-22"
+        },
+        {
+            "transaction_id": "df495037-b40a-4181-ac09-bdb799086e47",
+            "timestamp": "2025-06-11 14:30:11",
+            "amount": 60000.0,
+            "payee_id": "PAY0024",
+            "date_added_by_user": "2025-06-06"
+        },
+        {
+            "transaction_id": "33f7d722-e517-48b2-b832-dfc1350b0860",
+            "timestamp": "2025-06-05 03:36:11",
+            "amount": 66692.81,
+            "payee_id": "PAY0027",
+            "date_added_by_user": "2025-06-01"
+        },
+        {
+            "transaction_id": "da92e740-b749-46cb-a5df-c8fa65c65c7b",
+            "timestamp": "2025-06-01 10:41:11",
+            "amount": 55373.25,
+            "payee_id": "PAY0026",
+            "date_added_by_user": "2025-05-30"
+        }
+    ]
+}

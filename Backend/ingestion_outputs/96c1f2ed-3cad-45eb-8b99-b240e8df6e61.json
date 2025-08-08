@@ -1,0 +1,11 @@
+{
+    "historical_new_payee_events": [
+        {
+            "transaction_id": "87079ad4-80be-4e35-a1c2-645ac7332304",
+            "timestamp": "2025-08-04 06:54:19",
+            "amount": 70961.25,
+            "payee_id": "PAY0061",
+            "date_added_by_user": "2025-08-02"
+        }
+    ]
+}

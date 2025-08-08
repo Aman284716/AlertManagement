@@ -1,0 +1,712 @@
+[
+    {
+        "outcome_id": "c70dcca6-3a01-47f7-a98a-6f98c8505ee5",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T17:18:53.489120"
+    },
+    {
+        "outcome_id": "97fd5be0-d1ad-45ca-83e0-bb4ec138986c",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T17:17:27.034460"
+    },
+    {
+        "outcome_id": "4e06f659-966c-4c47-9be4-efe15ef1b80d",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T17:11:55.168307"
+    },
+    {
+        "outcome_id": "9fcf168c-a1b9-4ab8-8527-b3331ee39f6b",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T17:05:53.118845"
+    },
+    {
+        "outcome_id": "792bf6a2-dd8a-40af-8817-ea65da56b44c",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T17:00:25.133927"
+    },
+    {
+        "outcome_id": "d91cf314-cf0e-48ab-8235-6ba66a3aa52b",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:57:34.897717"
+    },
+    {
+        "outcome_id": "fb2bc5b6-891d-4075-bea1-418ce86e7170",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:55:18.593535"
+    },
+    {
+        "outcome_id": "e1b586e4-533f-4b51-9421-bc91edc489bd",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:53:30.569748"
+    },
+    {
+        "outcome_id": "efa90052-4be7-41be-98c1-6f06e0e98861",
+        "alert_id": "96c1f2ed-3cad-45eb-8b99-b240e8df6e61",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:52:38.029206"
+    },
+    {
+        "outcome_id": "59ddcbea-1ec5-4129-8904-6ef3463767a6",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:51:45.410347"
+    },
+    {
+        "outcome_id": "25dbe205-c458-4bbd-a69b-b58e1f8316fa",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:49:45.433411"
+    },
+    {
+        "outcome_id": "a3c10bcb-c8fe-47db-ab9a-d66beff4aa7c",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:43:40.754097"
+    },
+    {
+        "outcome_id": "158b0781-9866-4f4e-9f2f-1e685c8b5b90",
+        "alert_id": "61eab3f8-c30b-443e-a0c8-45eb99bfb558",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:39:50.744479"
+    },
+    {
+        "outcome_id": "d795a2f9-6270-462b-84ba-5490b4a78b74",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T16:29:28.186006"
+    },
+    {
+        "outcome_id": "ba87386f-ba1c-479c-8de2-abd1c9c51327",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T15:29:10.543874"
+    },
+    {
+        "outcome_id": "67f9dd70-55d4-47f9-8f25-f9d0bcd72bf1",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T15:26:53.549080"
+    },
+    {
+        "outcome_id": "b7c57619-38d4-442a-8da8-de30285f6c51",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T15:25:21.345219"
+    },
+    {
+        "outcome_id": "d6f8998c-706d-4c1a-9796-c1a9128791ce",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T15:19:00.988895"
+    },
+    {
+        "outcome_id": "0600af0e-fa09-496c-ad70-2a6d30ebf6fd",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.75,
+        "investigation_summary": "HIGH RISK: Confidence 0.75. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T15:11:19.633250"
+    },
+    {
+        "outcome_id": "0078afb0-55c2-46e8-9eb4-2ada3a4f35b1",
+        "alert_id": "6aea4141-9cb1-4827-bb51-7d108f890d1b",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T14:58:33.821925"
+    },
+    {
+        "outcome_id": "df6e1d86-efd6-4ce6-b876-33a288e6115e",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.8,
+        "investigation_summary": "HIGH RISK: Confidence 0.80. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T14:54:21.635186"
+    },
+    {
+        "outcome_id": "a6d902bb-6c9f-482c-a863-456badf07da3",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.75,
+        "investigation_summary": "HIGH RISK: Confidence 0.75. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T14:18:36.240333"
+    },
+    {
+        "outcome_id": "05fd2efe-c369-4ac6-808d-bc4fa8c8f4f7",
+        "alert_id": "a4fe3376-ed43-480d-b4c8-c112758bb71d",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.8,
+        "investigation_summary": "HIGH RISK: Confidence 0.80. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:58:14.512222"
+    },
+    {
+        "outcome_id": "b0f2872d-acdb-4e24-a19e-8ff80c1a3815",
+        "alert_id": "f37a7035-6b80-4b51-ad9c-d29d8ba34371",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:57:53.568129"
+    },
+    {
+        "outcome_id": "290a010d-189b-46aa-a763-dc825c2031fb",
+        "alert_id": "fe4bb4ed-a90c-4e6c-9b3a-b25c61f459fd",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:56:22.658107"
+    },
+    {
+        "outcome_id": "7a4cbd6d-dfb3-4dec-a39a-24eef352a55e",
+        "alert_id": "1f48cc03-8687-4558-a6d1-db58471836bd",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.92,
+        "investigation_summary": "HIGH RISK: Confidence 0.92. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:54:33.587782"
+    },
+    {
+        "outcome_id": "9f7ca898-7ddd-4b94-ac76-e7ed1fc027aa",
+        "alert_id": "52b59adf-43a9-4c07-a501-bd7a0e84075f",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.75,
+        "investigation_summary": "HIGH RISK: Confidence 0.75. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:15:00.535862"
+    },
+    {
+        "outcome_id": "711499f3-4511-47c6-9691-f28ca0c0de94",
+        "alert_id": "5a4d884c-c54d-4bef-914b-a9cdb07e86a0",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:14:11.081687"
+    },
+    {
+        "outcome_id": "ec39493e-45e6-485f-83ed-c58bfc540cbc",
+        "alert_id": "5a4d884c-c54d-4bef-914b-a9cdb07e86a0",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.75,
+        "investigation_summary": "HIGH RISK: Confidence 0.75. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T12:14:03.839004"
+    },
+    {
+        "outcome_id": "446d7676-6700-4b6f-a506-8c8f1fcc31f6",
+        "alert_id": "5a4d884c-c54d-4bef-914b-a9cdb07e86a0",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:58:35.454112"
+    },
+    {
+        "outcome_id": "88d935b4-3c2b-4231-88df-98cd2064fabf",
+        "alert_id": "96c1f2ed-3cad-45eb-8b99-b240e8df6e61",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.7,
+        "investigation_summary": "HIGH RISK: Confidence 0.70. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:57:44.324897"
+    },
+    {
+        "outcome_id": "9aa7402e-6380-40ba-a6a9-212bcc90c917",
+        "alert_id": "6aea4141-9cb1-4827-bb51-7d108f890d1b",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.71,
+        "investigation_summary": "HIGH RISK: Confidence 0.71. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:56:34.765981"
+    },
+    {
+        "outcome_id": "c857c880-7851-4af4-be98-4188a735ba9b",
+        "alert_id": "693ba4c0-82f0-44c1-abaf-17c80ad532b1",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.9,
+        "investigation_summary": "HIGH RISK: Confidence 0.90. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:55:10.465582"
+    },
+    {
+        "outcome_id": "0bb48b2e-781c-46d8-adad-25e11c39c251",
+        "alert_id": "c7823bbd-4d48-48aa-9463-c3e8569c8c19",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.93,
+        "investigation_summary": "HIGH RISK: Confidence 0.93. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:54:01.970340"
+    },
+    {
+        "outcome_id": "4a933346-22b9-46d6-8dd8-ff0f8efd5f5f",
+        "alert_id": "1f48cc03-8687-4558-a6d1-db58471836bd",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.93,
+        "investigation_summary": "HIGH RISK: Confidence 0.93. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:53:13.268064"
+    },
+    {
+        "outcome_id": "09d8c52e-c92d-41e5-8c7e-20fed45a1eff",
+        "alert_id": "21a413ae-91cd-48ed-ab09-d3a4f914a0be",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.66,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.66. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:52:28.501482"
+    },
+    {
+        "outcome_id": "e40fa82e-e8eb-49c9-aa6d-5f76ab573cb6",
+        "alert_id": "899f9b94-1bd0-4369-a8e2-9dde99fa2066",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.59,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.59. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:51:21.206178"
+    },
+    {
+        "outcome_id": "b6a74a30-62d8-4998-82c1-063e984688c7",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.84,
+        "investigation_summary": "HIGH RISK: Confidence 0.84. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:50:16.838447"
+    },
+    {
+        "outcome_id": "0a831a79-e33a-4dc0-a863-642a128a2dc2",
+        "alert_id": "c7823bbd-4d48-48aa-9463-c3e8569c8c19",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.93,
+        "investigation_summary": "HIGH RISK: Confidence 0.93. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:49:14.229913"
+    },
+    {
+        "outcome_id": "720bebcc-37af-4cf0-a76d-8882c3a90908",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.67,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.67. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:46:00.588736"
+    },
+    {
+        "outcome_id": "2cb1d8df-e7c8-4c28-b907-6b14cc97e458",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.68,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.68. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:37:13.840843"
+    },
+    {
+        "outcome_id": "75dfbbc8-0cfe-4903-b162-f30656a234d3",
+        "alert_id": "6aea4141-9cb1-4827-bb51-7d108f890d1b",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:36:05.974381"
+    },
+    {
+        "outcome_id": "1a87a0aa-2dfa-4d74-b668-05af3d0763d8",
+        "alert_id": "6aea4141-9cb1-4827-bb51-7d108f890d1b",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:31:04.388904"
+    },
+    {
+        "outcome_id": "68e41075-3f3d-4a83-844f-6d044251f5f6",
+        "alert_id": "693ba4c0-82f0-44c1-abaf-17c80ad532b1",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:30:07.768021"
+    },
+    {
+        "outcome_id": "8e626172-c60a-49b4-96a1-d20924b57974",
+        "alert_id": "c7823bbd-4d48-48aa-9463-c3e8569c8c19",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.93,
+        "investigation_summary": "HIGH RISK: Confidence 0.93. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:29:27.881265"
+    },
+    {
+        "outcome_id": "6f3c1f50-4140-4e58-bf44-3553bd54968d",
+        "alert_id": "1f48cc03-8687-4558-a6d1-db58471836bd",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.926,
+        "investigation_summary": "HIGH RISK: Confidence 0.93. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:28:33.891492"
+    },
+    {
+        "outcome_id": "bf5f14a2-9133-4d5b-a2ad-3679a51a87d5",
+        "alert_id": "21a413ae-91cd-48ed-ab09-d3a4f914a0be",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.69,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.69. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:27:38.922041"
+    },
+    {
+        "outcome_id": "cc8d3152-5086-4777-bac5-c0fdfc4d1942",
+        "alert_id": "899f9b94-1bd0-4369-a8e2-9dde99fa2066",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:26:39.097258"
+    },
+    {
+        "outcome_id": "5387705e-2915-4f4e-a9e1-1c8a83d58ad2",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.68,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.68. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:25:31.414504"
+    },
+    {
+        "outcome_id": "533b027c-c2dd-44b8-a109-196a4b848643",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:24:42.564030"
+    },
+    {
+        "outcome_id": "7ddefcf1-e3e3-484c-95e0-263de5782905",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:23:59.193072"
+    },
+    {
+        "outcome_id": "ffe358d6-7b31-4ddb-85a8-775f6d51dd5f",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.7,
+        "investigation_summary": "HIGH RISK: Confidence 0.70. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:20:29.950454"
+    },
+    {
+        "outcome_id": "cdcfa8f7-5551-4319-a322-27e9823e7fb0",
+        "alert_id": "d919f484-62b1-4039-83e3-0bca9660a9f8",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.2,
+        "investigation_summary": "LOW RISK: Confidence 0.20. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:19:36.024069"
+    },
+    {
+        "outcome_id": "8f9a70ee-c850-42ca-9149-422203ede3d2",
+        "alert_id": "0d22947a-eb57-4dec-93e6-8ff62f35713c",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:19:00.017316"
+    },
+    {
+        "outcome_id": "db0c0ea7-6014-4a51-8d53-d85a1ed06795",
+        "alert_id": "61db8127-35d2-4059-8c7b-8b7a5724c421",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.7,
+        "investigation_summary": "HIGH RISK: Confidence 0.70. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:18:14.083916"
+    },
+    {
+        "outcome_id": "db9fc85c-f379-4895-8c2b-28992bbb4d0b",
+        "alert_id": "c0ae1a77-3d4b-44ec-bddb-7ee39cb83c95",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:17:31.645037"
+    },
+    {
+        "outcome_id": "9badaf2a-7735-46e9-9723-fcb7391076b4",
+        "alert_id": "7f67cb11-b2a4-4e89-b0aa-e8004abe82bb",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:16:21.079260"
+    },
+    {
+        "outcome_id": "68958e9e-ccd7-46f8-b0a9-f2cc3174bdee",
+        "alert_id": "61eab3f8-c30b-443e-a0c8-45eb99bfb558",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:15:25.480608"
+    },
+    {
+        "outcome_id": "8bb29609-a85d-4f5f-ba82-29f5599bbee8",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.68,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.68. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:09:16.331056"
+    },
+    {
+        "outcome_id": "b5848d90-5437-46a7-9c54-763001cc6fb1",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:05:08.402456"
+    },
+    {
+        "outcome_id": "b69d8b37-5f49-40bd-8baf-1862ccdbf85d",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.68,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.68. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:04:06.077112"
+    },
+    {
+        "outcome_id": "9f17d42b-7c50-41af-87c9-2fa6d8f539d5",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:02:53.118148"
+    },
+    {
+        "outcome_id": "33a86d90-4b1b-41f2-af43-51676ef87346",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T11:00:57.023423"
+    },
+    {
+        "outcome_id": "6b875c72-2c4c-410d-8825-9a83d8884456",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:59:31.515339"
+    },
+    {
+        "outcome_id": "1bd770bc-9b85-4ae2-b9d8-beef3f7c3767",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "HUMAN_REVIEW",
+        "is_suspicious": 1,
+        "confidence_score": 0.68,
+        "investigation_summary": "MEDIUM RISK: Confidence 0.68. Requires human judgment after max loops.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:56:12.305343"
+    },
+    {
+        "outcome_id": "794c1683-6fd8-419f-8f0b-6bb60f1f6004",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:51:34.984870"
+    },
+    {
+        "outcome_id": "dd990dfd-a1a5-4c19-a73d-db2f99fa6c2b",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:42:42.003353"
+    },
+    {
+        "outcome_id": "8f7be7d9-e3cc-4926-8786-752be431951c",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "ESCALATE",
+        "is_suspicious": 1,
+        "confidence_score": 0.85,
+        "investigation_summary": "HIGH RISK: Confidence 0.85. Multiple risk factors detected.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:42:35.012275"
+    },
+    {
+        "outcome_id": "f63d69d9-651b-4831-ae3a-d56bcadc06e4",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:32:17.940518"
+    },
+    {
+        "outcome_id": "f5612721-85e9-4b79-a897-c3edaee66470",
+        "alert_id": "9a0ffcf7-1cde-468b-a47c-a18e7119d56e",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:30:58.742707"
+    },
+    {
+        "outcome_id": "7a2444cf-32bd-4540-a8d2-0f450024450d",
+        "alert_id": "b8fc36f6-e89c-4f57-bcb0-e083284dfa37",
+        "final_outcome": "AUTO_CLOSE",
+        "is_suspicious": 0,
+        "confidence_score": 0.5,
+        "investigation_summary": "LOW RISK: Confidence 0.50. Likely false positive.",
+        "human_verified": 0,
+        "timestamp": "2025-08-07T10:30:01.507690"
+    }
+]

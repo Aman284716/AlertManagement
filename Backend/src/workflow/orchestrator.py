@@ -31,6 +31,8 @@ class AlertInvestigationOrchestrator:
         self.workflow = create_investigation_workflow(self.agents)
 
     async def investigate_alert(self, alert_id: str) -> Dict[str, Any]:
+        if not self.db.alert_exists(alert_id):
+            raise ValueError(f"Alert not found: {alert_id}")
         """Investigate a single alert and log the full result."""
         print(f"\n--- Starting investigation for alert {alert_id} ---")
         initial_state = AlertInvestigationState(
@@ -86,7 +88,7 @@ class AlertInvestigationOrchestrator:
             }
 
 
-    async def process_pending_alerts(self, limit: int = 2) -> List[Dict[str, Any]]:
+    async def process_pending_alerts(self, limit: int = 10) -> List[Dict[str, Any]]:
         """Process multiple pending alerts."""
         print("\n[Orchestrator] Checking for new alerts to process...")
         pending_alerts = self.db.get_pending_alerts(limit)

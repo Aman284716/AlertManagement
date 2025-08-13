@@ -28,7 +28,10 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Checkbox,
+  TextField,
+  FormControlLabel
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SecurityIcon from "@mui/icons-material/Security";
@@ -43,6 +46,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import InfoIcon from "@mui/icons-material/Info";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import TimelineIcon from "@mui/icons-material/Timeline";
+import CheckIcon from "@mui/icons-material/Check";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ApprovalIcon from "@mui/icons-material/ThumbUp";
 
 // API configuration
 const API_BASE_URL = 'http://127.0.0.1:8000';
@@ -235,6 +241,68 @@ const BeautifiedExplanation = ({ explanation }) => {
   );
 };
 
+// Rules Status Display Component
+const RulesStatusDisplay = ({ rules }) => {
+  if (!rules || rules.length === 0) return null;
+
+  return (
+    <Card variant="outlined" sx={{ mb: 2, border: '1px solid #e3f2fd' }}>
+      <CardContent>
+        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#1976d2', mb: 2 }}>
+          Rules Evaluation
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          {rules.map((rule, index) => (
+            <Box 
+              key={index} 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                p: 1.5, 
+                backgroundColor: rule.matched ? '#e8f5e8' : '#fce4ec',
+                borderRadius: 1,
+                border: `1px solid ${rule.matched ? '#4caf50' : '#f44336'}30`
+              }}
+            >
+              <Avatar 
+                sx={{ 
+                  bgcolor: rule.matched ? '#4caf50' : '#f44336', 
+                  width: 24, 
+                  height: 24, 
+                  mr: 1.5 
+                }}
+              >
+                {rule.matched ? (
+                  <CheckIcon sx={{ fontSize: 16 }} />
+                ) : (
+                  <CancelIcon sx={{ fontSize: 16 }} />
+                )}
+              </Avatar>
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  flexGrow: 1,
+                  fontWeight: 500,
+                  color: rule.matched ? '#2e7d32' : '#c62828'
+                }}
+              >
+                {rule.rule}
+              </Typography>
+              <Chip 
+                label={rule.matched ? 'PASSED' : 'FAILED'} 
+                size="small"
+                color={rule.matched ? 'success' : 'error'}
+                variant="filled"
+                sx={{ fontWeight: 600, fontSize: '0.7rem' }}
+              />
+            </Box>
+          ))}
+        </Box>
+      </CardContent>
+    </Card>
+  );
+};
+
 const AgentStepProgress = ({ agentOutputs }) => {
   const steps = [
     {
@@ -279,9 +347,33 @@ const AgentStepProgress = ({ agentOutputs }) => {
                   </Avatar>
                 )}
               >
-                <Typography variant="h6" sx={{ fontWeight: 600, color: step.color }}>
-                  {step.label}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: step.color }}>
+                    {step.label}
+                  </Typography>
+                  {/* Show rules status for Pattern Recognition Agent */}
+                  {step.agent === 'PatternRecognitionAgent' && agentData?.rules_used && (
+                    <Box sx={{ display: 'flex', gap: 0.5, ml: 1 }}>
+                      {agentData.rules_used.map((rule, idx) => (
+                        <Avatar
+                          key={idx}
+                          sx={{
+                            width: 20,
+                            height: 20,
+                            bgcolor: rule.matched ? '#4caf50' : '#f44336'
+                          }}
+                          title={rule.rule}
+                        >
+                          {rule.matched ? (
+                            <CheckIcon sx={{ fontSize: 12 }} />
+                          ) : (
+                            <CancelIcon sx={{ fontSize: 12 }} />
+                          )}
+                        </Avatar>
+                      ))}
+                    </Box>
+                  )}
+                </Box>
               </StepLabel>
               <StepContent>
                 {isActive ? (
@@ -307,6 +399,9 @@ const AgentOutputCard = ({ agentName, output, color }) => {
 
   const renderPatternRecognitionAgent = (data) => (
     <Box sx={{ mb: 2 }}>
+      {/* Rules Status Display */}
+      {data.rules_used && <RulesStatusDisplay rules={data.rules_used} />}
+      
       {data.llm_analysis && (
         <Card variant="outlined" sx={{ mb: 2, border: `1px solid ${color}30` }}>
           <CardContent>
@@ -535,6 +630,24 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
   const [detailedAlert, setDetailedAlert] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Review state
+  const [hypothesisChanged, setHypothesisChanged] = useState(false);
+  const [reviewData, setReviewData] = useState({
+    is_suspicious: null,
+    investigation_summary: ''
+  });
+  const [submitting, setSubmitting] = useState(false);
+
+  // Initialize review data when alert details are loaded
+  useEffect(() => {
+    if (detailedAlert) {
+      setReviewData({
+        is_suspicious: detailedAlert.is_suspicious === 1,
+        investigation_summary: detailedAlert.investigation_summary || ''
+      });
+    }
+  }, [detailedAlert]);
 
   // Fetch detailed alert data from API
   const fetchAlertDetails = async (alertId) => {
@@ -566,6 +679,39 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
     }
   };
 
+  // Submit review
+  const handleApprove = async () => {
+    if (!alert?.alert_id) return;
+
+    setSubmitting(true);
+    try {
+      const payload = {
+        is_suspicious: reviewData.is_suspicious,
+        investigation_summary: reviewData.investigation_summary
+      };
+
+      const response = await fetch(`${API_BASE_URL}/alerts/${alert.alert_id}/finalize_review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // Success - close modal
+      onClose();
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      // You might want to show an error message to the user here
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   useEffect(() => {
     if (open && alert && alert.alert_id) {
       fetchAlertDetails(alert.alert_id);
@@ -577,6 +723,11 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
       setDetailedAlert(null);
       setError(null);
       setLoading(false);
+      setHypothesisChanged(false);
+      setReviewData({
+        is_suspicious: null,
+        investigation_summary: ''
+      });
     }
   }, [open]);
 
@@ -709,6 +860,79 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
           </Grid>
         </Grid>
 
+        {/* Hypothesis Change Section */}
+        <Card sx={{ mb: 1, border: "1px solid #e0e0e0" }}>
+          <CardContent>
+            <Box display="flex" alignItems="center" mb={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={hypothesisChanged}
+                    onChange={(e) => setHypothesisChanged(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label={
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    Change Hypothesis
+                  </Typography>
+                }
+              />
+            </Box>
+            
+            {hypothesisChanged && (
+              <Box sx={{ mt: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={6}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={reviewData.is_suspicious === true}
+                          onChange={(e) => setReviewData(prev => ({ 
+                            ...prev, 
+                            is_suspicious: e.target.checked ? true : (reviewData.is_suspicious === false ? false : null)
+                          }))}
+                          color="error"
+                        />
+                      }
+                      label="Mark as Suspicious"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={reviewData.is_suspicious === false}
+                          onChange={(e) => setReviewData(prev => ({ 
+                            ...prev, 
+                            is_suspicious: e.target.checked ? false : (reviewData.is_suspicious === true ? true : null)
+                          }))}
+                          color="success"
+                        />
+                      }
+                      label="Mark as Not Suspicious"
+                      sx={{ ml: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      multiline
+                      rows={3}
+                      label="Updated Investigation Summary"
+                      value={reviewData.investigation_summary}
+                      onChange={(e) => setReviewData(prev => ({ 
+                        ...prev, 
+                        investigation_summary: e.target.value 
+                      }))}
+                      placeholder="Reviewed. Looks suspicious due to X and Y."
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Investigation Summary */}
         <Card sx={{ mb: 3, border: "1px solid #e0e0e0" }}>
           <CardContent>
@@ -819,6 +1043,18 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
           sx={{ fontWeight: 600 }}
         >
           Close
+        </Button>
+        <Button 
+          onClick={handleApprove}
+          variant="contained"
+          startIcon={submitting ? <CircularProgress size={20} /> : <ApprovalIcon />}
+          disabled={submitting}
+          sx={{ 
+            fontWeight: 600,
+            ml: 1
+          }}
+        >
+          {submitting ? "Approving..." : "Approve"}
         </Button>
       </DialogActions>
     </Dialog>

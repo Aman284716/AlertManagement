@@ -1,15 +1,15 @@
 // src/components/Dashboard.js
 import React, { useState, useEffect } from "react";
-import { 
-  Container, 
-  Box, 
-  Stepper, 
-  Step, 
-  StepLabel, 
-  Typography, 
-  Card, 
-  CardContent, 
-  LinearProgress, 
+import {
+  Container,
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  Typography,
+  Card,
+  CardContent,
+  LinearProgress,
   Avatar,
   Button,
   TextField,
@@ -64,21 +64,21 @@ const processingStages = [
     key: "pattern",
     label: "Pattern Recognition",
     icon: <SearchIcon />,
-    color: "#006666", 
+    color: "#006666",
     duration: () => Math.random() * 2500 + 2500 // 2.5-5 seconds
   },
   {
     key: "explanation",
     label: "Analysis & Explanation",
     icon: <AnalyticsIcon />,
-    color: "#006666", 
+    color: "#006666",
     duration: () => Math.random() * 2000 + 3000 // 3-5 seconds
   },
   {
     key: "risk",
     label: "Risk Assessment",
     icon: <GavelIcon />,
-    color: "#006666", 
+    color: "#006666",
     duration: () => Math.random() * 1500 + 2000 // 2-3.5 seconds
   }
 ];
@@ -95,7 +95,7 @@ const investigationStages = [
   {
     key: "explanation",
     label: "Explanation & Analysis",
-    agent: "ExplanationAgent", 
+    agent: "ExplanationAgent",
     icon: <AnalyticsIcon />,
     color: "#388e3c"
   },
@@ -121,11 +121,11 @@ const ProcessingProgress = ({ isProcessing, currentStage, processedCount }) => {
     }
 
     let timeoutId;
-    
+
     const changeStep = () => {
       const currentStageConfig = processingStages[activeStep];
       const duration = currentStageConfig.duration();
-      
+
       timeoutId = setTimeout(() => {
         setActiveStep((prev) => {
           const nextStep = (prev + 1) % processingStages.length;
@@ -157,9 +157,9 @@ const ProcessingProgress = ({ isProcessing, currentStage, processedCount }) => {
     <Card sx={{ mb: 3, border: "2px solid #006666", backgroundColor: "#f3f8ff" }}>
       <CardContent>
         <Box display="flex" alignItems="center" mb={2}>
-          <Avatar 
-            sx={{ 
-              mr: 2, 
+          <Avatar
+            sx={{
+              mr: 2,
               bgcolor: "#006666",
               width: 40,
               height: 40,
@@ -205,9 +205,9 @@ const ProcessingProgress = ({ isProcessing, currentStage, processedCount }) => {
                   </Avatar>
                 )}
               >
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+                <Typography
+                  variant="body2"
+                  sx={{
                     fontWeight: index === activeStep ? 600 : 400,
                     color: index === activeStep ? stage.color : 'text.secondary'
                   }}
@@ -220,9 +220,9 @@ const ProcessingProgress = ({ isProcessing, currentStage, processedCount }) => {
         </Stepper>
 
         <Box sx={{ mb: 1 }}>
-          <LinearProgress 
-            variant="indeterminate" 
-            sx={{ 
+          <LinearProgress
+            variant="indeterminate"
+            sx={{
               height: 8,
               borderRadius: 4,
               backgroundColor: '#e0e0e0',
@@ -233,7 +233,7 @@ const ProcessingProgress = ({ isProcessing, currentStage, processedCount }) => {
             }}
           />
         </Box>
-        
+
         <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
           Analyzing alerts through AI pipeline...
         </Typography>
@@ -336,7 +336,7 @@ const SingleInvestigationModal = ({ open, onClose, investigationData, loading, e
                   </Box>
                 </Box>
               )}
-              
+
               {output.llm_analysis?.evidence && (
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
@@ -355,8 +355,8 @@ const SingleInvestigationModal = ({ open, onClose, investigationData, loading, e
                 <LinearProgress
                   variant="determinate"
                   value={(output.overall_confidence || 0) * 100}
-                  sx={{ 
-                    width: 100, 
+                  sx={{
+                    width: 100,
                     height: 6,
                     '& .MuiLinearProgress-bar': { backgroundColor: stage.color }
                   }}
@@ -539,7 +539,7 @@ const SingleInvestigationModal = ({ open, onClose, investigationData, loading, e
                 <Card variant="outlined">
                   <CardContent sx={{ textAlign: 'center' }}>
                     <Typography variant="caption" color="text.secondary">Outcome</Typography>
-                    <Chip 
+                    <Chip
                       label={investigationData.outcome}
                       color={investigationData.outcome === "ESCALATE" ? "error" : investigationData.outcome === "AUTO_CLOSE" ? "success" : "warning"}
                       sx={{ mt: 1 }}
@@ -680,7 +680,9 @@ const SingleInvestigationButton = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorBody = await response.json();
+        const errorMessage = errorBody?.detail || `HTTP status ${response.status}`;
+        throw new Error(`${errorMessage}`);
       }
 
       const data = await response.json();
@@ -808,20 +810,20 @@ const Dashboard = () => {
 
       const result = await response.json();
       console.log('Alerts processed:', result);
-      
+
       // Set the processed count from API response
       setProcessedCount(result.processed_count || 0);
-      
+
       // Calculate processing time
       if (processingStartTime) {
         const endTime = Date.now();
         const processingTime = (endTime - processingStartTime) / 1000;
         setAvgProcessingTime(processingTime.toFixed(1));
       }
-      
+
       // Refresh stats after processing
       await fetchInvestigationStats();
-      
+
     } catch (error) {
       console.error('Error processing alerts:', error);
       // Even on error, try to refresh stats
@@ -842,43 +844,45 @@ const Dashboard = () => {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", backgroundColor: "#ffffff" }}>
-      {/* Add CSS for pulse animation */}
-      <style jsx>{`
-        @keyframes pulse {
-          0% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.1);
-            opacity: 0.8;
-          }
-          100% {
-            transform: scale(1);
-            opacity: 1;
-          }
+  <Box sx={{ minHeight: "100vh", backgroundColor: "#ffffff" }}>
+    {/* Add CSS for pulse animation */}
+    <style jsx>{`
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
         }
-      `}</style>
-      
-      <Header />
-      <Box sx={{ py: 3 }}>
-        <AlertDashboard
-          stats={stats}
-          loading={statsLoading}
+        50% {
+          transform: scale(1.1);
+          opacity: 0.8;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    `}</style>
+
+    <Header />
+    <Box sx={{ py: 3 }}>
+      <AlertDashboard
+        stats={stats}
+        loading={statsLoading}
+      />
+
+      <Container maxWidth="xl" sx={{ mt: 4, px: 3 }}>
+        {/* Processing Progress Bar */}
+        <ProcessingProgress
+          isProcessing={loading}
+          currentStage={currentStage}
+          processedCount={processedCount}
         />
-        
-        <Container maxWidth="xl" sx={{ mt: 4 }}>
-          {/* Processing Progress Bar */}
-          <ProcessingProgress 
-            isProcessing={loading} 
-            currentStage={currentStage}
-            processedCount={processedCount}
-          />
-          
-          {/* Single Investigation Button */}
-          <SingleInvestigationButton />
-          
+
+        {/* Single Investigation Button */}
+        <SingleInvestigationButton />
+
+        {/* StatsCards with proper spacing */}
+        <Box sx={{ width: "100%", mb: 4 }}>
           <StatsCards
             onProcessAlerts={handleProcessAlerts}
             loading={loading}
@@ -886,21 +890,22 @@ const Dashboard = () => {
             avgProcessingTime={avgProcessingTime}
             stats={stats}
           />
-        </Container>
+        </Box>
+      </Container>
 
-        <Container maxWidth="xl" sx={{ mt: 4 }}>
-          <AlertTable
-            onViewAlert={openAlertDetail}
-          />
-        </Container>
-
-        <AlertDetailModal
-          alert={selectedAlert}
-          open={!!selectedAlert}
-          onClose={closeAlertDetail}
+      <Container maxWidth="xl" sx={{ mt: 4 }}>
+        <AlertTable
+          onViewAlert={openAlertDetail}
         />
-      </Box>
+      </Container>
+
+      <AlertDetailModal
+        alert={selectedAlert}
+        open={!!selectedAlert}
+        onClose={closeAlertDetail}
+      />
     </Box>
+  </Box>
   );
 };
 

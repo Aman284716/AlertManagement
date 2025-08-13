@@ -67,7 +67,12 @@ class RiskAssessmentAgent(BaseAgent):
 
         if result["is_suspicious"] is None:
             result["is_suspicious"] = False
-        self._save_investigation_outcome(alert_id, final_decision, risk_assessment)
+        self._save_investigation_outcome(alert_id, final_decision, risk_assessment, updated_agent_outputs)
+        try:
+            self.db.set_review_status(alert_id, 1)
+        except Exception as e:
+
+            print(f"[{self.agent_name}] Warning: failed to set review_status=1 for {alert_id}: {e}")
 
         print(f"[{self.agent_name}] Investigation complete for alert {alert_id}.")
         result["success"] = True
@@ -150,20 +155,77 @@ class RiskAssessmentAgent(BaseAgent):
         unique_indicators = list(dict.fromkeys(indicators))
         return unique_indicators[:5]
 
-    def _save_investigation_outcome(self, alert_id: str, decision: Dict[str, Any], risk_assessment: Dict[str, Any]):
-        """Save the final investigation outcome to the database.""" 
+    def _save_investigation_outcome(
+        self,
+        alert_id: str,
+        decision: Dict[str, Any],
+        risk_assessment: Dict[str, Any],
+        agent_outputs: Dict[str, Any],
+    ):
+        """Upsert final investigation outcome; store agent_outputs JSON."""
         outcome = {
-            'outcome_id': str(uuid.uuid4()), 'alert_id': alert_id, 'final_outcome': decision['action'],
-            'is_suspicious': decision.get('is_suspicious', False), 'confidence_score': risk_assessment['final_confidence'],
-            'investigation_summary': decision['summary'], 'human_verified': False,
-            'timestamp': datetime.now().isoformat()
+            "outcome_id": str(uuid.uuid4()),
+            "alert_id": alert_id,
+            "final_outcome": decision["action"],
+            "is_suspicious": decision.get("is_suspicious", False),
+            "confidence_score": risk_assessment["final_confidence"],
+            "investigation_summary": decision["summary"],
+            "human_verified": False,  # preserved on update if previously set
+            "timestamp": datetime.now().isoformat(),
+            "agent_outputs": json.dumps(agent_outputs, ensure_ascii=False),
         }
+
         with self.db.get_connection() as conn:
-            conn.execute("""
-            INSERT INTO investigation_outcomes
-            (outcome_id, alert_id, final_outcome, is_suspicious, confidence_score, investigation_summary, human_verified, timestamp)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (outcome['outcome_id'], outcome['alert_id'], outcome['final_outcome'],
-                  outcome['is_suspicious'], outcome['confidence_score'], outcome['investigation_summary'],
-                  outcome['human_verified'], outcome['timestamp']))
+            existing = conn.execute(
+                "SELECT outcome_id, human_verified FROM investigation_outcomes WHERE alert_id = ? LIMIT 1",
+                (alert_id,),
+            ).fetchone()
+
+            if existing:
+                prior_hv = existing["human_verified"]
+                human_verified = prior_hv if prior_hv is not None else outcome["human_verified"]
+
+                conn.execute(
+                    """
+                    UPDATE investigation_outcomes
+                    SET final_outcome = ?,
+                        is_suspicious = ?,
+                        confidence_score = ?,
+                        investigation_summary = ?,
+                        human_verified = ?,
+                        timestamp = ?,
+                        agent_outputs = ?
+                    WHERE alert_id = ?
+                    """,
+                    (
+                        outcome["final_outcome"],
+                        int(bool(outcome["is_suspicious"])),
+                        float(outcome["confidence_score"]),
+                        outcome["investigation_summary"],
+                        int(False),
+                        outcome["timestamp"],
+                        outcome["agent_outputs"],
+                        alert_id
+                    ),
+                )
+            else:
+                conn.execute(
+                    """
+                    INSERT INTO investigation_outcomes
+                    (outcome_id, alert_id, final_outcome, is_suspicious, confidence_score,
+                    investigation_summary, human_verified, timestamp, agent_outputs)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        outcome["outcome_id"],
+                        outcome["alert_id"],
+                        outcome["final_outcome"],
+                        int(bool(outcome["is_suspicious"])),
+                        float(outcome["confidence_score"]),
+                        outcome["investigation_summary"],
+                        int(bool(outcome["human_verified"])),
+                        outcome["timestamp"],
+                        outcome["agent_outputs"],
+                    ),
+                )
             conn.commit()

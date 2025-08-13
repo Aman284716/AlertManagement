@@ -33,6 +33,48 @@ RULE_DEFINITIONS = {
     "HighRiskLocation": f"Transaction to one of {sorted(HIGH_RISK_COUNTRIES)}"
 }
 
+DECISION_RULES = {
+    "HighValue": [
+        "If historical similar transactions ≤1 → True Positive (>0.7)",
+        "If historical similar transactions 2–4 → Human Review (0.5–0.7)",
+        "If historical similar transactions ≥5 → False Positive (≤0.5)"
+    ],
+    "GeoMismatch": [
+        "If count of similar location mismatches ≤1 → True Positive (>0.7)",
+        "If count of similar location mismatches 2–4 → Human Review (0.5–0.7)",
+        "If count of similar location mismatches ≥5 → False Positive (≤0.5)"
+    ],
+    "Velocity": [
+        "If historical velocity events ≤1 → True Positive (>0.7)",
+        "If historical velocity events 2–4 → Human Review (0.5–0.7)",
+        "If historical velocity events ≥5 → False Positive (≤0.5)"
+    ],
+    "NewPayee": [
+        "If historical new payee events <2 → True Positive (>0.7)",
+        "If historical new payee events is 2–4 → Human Review (0.5–0.7)",
+        "If historical new payee events ≥5 → False Positive (≤0.5)"
+    ],
+    "FailedLoginTransfer": [
+        "If transfer amount ≥70% of (amount + balance) → True Positive (>0.7)",
+        "If transfer amount between 50%–70% → Human Review (0.5–0.7)",
+        "If transfer amount ≤50% → False Positive (≤0.5)"
+    ],
+    "Structuring": [
+        "If total amount from smaller transactions ≤ threshold once historically → True Positive (>0.7)",
+        "If occurrences between 2–4 → Human Review (0.5–0.7)",
+        "If occurrences ≥5 → False Positive (≤0.5)"
+    ],
+    "CrossChannel": [
+        "If ATM withdrawal + transfer in diff. locations within 60m happens ≤1 time → True Positive (>0.7)",
+        "If happens 2–4 times → Human Review (0.5–0.7)",
+        "If happens ≥5 times → False Positive (≤0.5)"
+    ],
+    "HighRiskLocation": [
+        "If location is in high-risk list → True Positive (>0.7)"
+    ]
+}
+
+
 
 class PatternRecognitionAgent(BaseAgent):
     def __init__(self, db_manager, llm_helper, config: Dict[str, Any]):
@@ -67,14 +109,31 @@ class PatternRecognitionAgent(BaseAgent):
                 confidence = 0.6  # Human review scenario
             else: # historical_velocity_count <= 1
                 confidence = 0.85 # True positive scenario
+
+            conf_val = float(confidence)
+            base_rule = f"{alert_type}: {RULE_DEFINITIONS.get(alert_type)}"
+
+            if conf_val >= 0.7:
+                true_rule_index = 0
+            elif conf_val <= 0.5:
+                true_rule_index = 2
+            else:
+                true_rule_index = 1
+
+            rules_used = [{"rule": base_rule, "matched": True}]
+            for idx, r in enumerate(DECISION_RULES.get(alert_type, [])):
+                rules_used.append({"rule": r, "matched": idx == true_rule_index})
+
             
             # Build the enhanced dictionary for the return payload
             enhanced = {
                 "llm_analysis": {}, # LLM analysis is skipped
-                "overall_confidence": confidence,
+                "overall_confidence": conf_val,
                 "risk_factors": ["High velocity activity"],
-                "evidence": {"historical_velocity_events_count": historical_velocity_count}
+                "evidence": {"historical_velocity_events_count": historical_velocity_count},
+                "rules_used": rules_used
             }
+
             print(f"[{self.agent_name}]     Velocity alert handled with custom logic. Historical count: {historical_velocity_count}")
 
         # elif alert_type == "NewPayee":
@@ -195,12 +254,35 @@ make sure to give just one complete json response and return a valid JSON object
             else:
                 llm_analysis = raw_llm
 
-            # Build the enhanced dictionary from LLM output
+            conf_val = float(llm_analysis.get("confidence", 0.0))
+            base_rule = f"{alert_type}: {RULE_DEFINITIONS.get(alert_type)}"
+
+            if conf_val >= 0.7:
+                true_rule_index = 0
+            elif conf_val <= 0.5:
+                true_rule_index = 2
+            else:
+                true_rule_index = 1
+
+            rules_used = [{"rule": base_rule, "matched": True}]
+            for idx, r in enumerate(DECISION_RULES.get(alert_type, [])):
+                rules_used.append({"rule": r, "matched": idx == true_rule_index})
+
             enhanced = {
                 "llm_analysis": llm_analysis,
-                "overall_confidence": float(llm_analysis.get("confidence", 0.0)),
-                "risk_factors": llm_analysis.get("risk_indicators", [])
+                "overall_confidence": conf_val,
+                "risk_factors": llm_analysis.get("risk_indicators", []),
+                "rules_used": rules_used
             }
+
+
+            # Build the enhanced dictionary from LLM output
+            # enhanced = {
+            #     "llm_analysis": llm_analysis,
+            #     "overall_confidence": float(llm_analysis.get("confidence", 0.0)),
+            #     "risk_factors": llm_analysis.get("risk_indicators", []),
+            #     "rules_used": [f"{alert_type}: {RULE_DEFINITIONS.get(alert_type)}"] + DECISION_RULES.get(alert_type, [])
+            # }
         
         # --- Common logic for both paths ---
         print(f"[{self.agent_name}]     overall_confidence: {enhanced['overall_confidence']:.2f}")
@@ -225,6 +307,7 @@ make sure to give just one complete json response and return a valid JSON object
             "loop_count": state.loop_count,
             "context_data": state.context_data,
             "evidence_collected": state.evidence_collected,
+            "rules_used": enhanced.get("rules_used", {})
         }
 
         # Loop back if confidence too low

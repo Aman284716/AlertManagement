@@ -8,6 +8,12 @@ from dotenv import load_dotenv
 from src.workflow.orchestrator import AlertInvestigationOrchestrator
 from typing import Dict, Any, List
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException
+from pydantic import BaseModel
+
+class ReviewFinalizeRequest(BaseModel):
+    is_suspicious: bool
+    investigation_summary: str
 
 # Load environment variables from .env file
 load_dotenv()
@@ -80,15 +86,36 @@ def _save_investigation_result(alert_id: str, result: Dict[str, Any]):
 
 from datetime import datetime
 
+
+@app.get("/review_status_counts")
+def review_status_counts():
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+    try:
+        return orchestrator.db.get_review_status_counts()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch counts: {e}")
+
 @app.post("/investigate_alert/{alert_id}")
-async def investigate_alert(alert_id: str) -> Dict[str, Any]:
-    """Investigate a specific alert and save the full result."""
-    result = await orchestrator.investigate_alert(alert_id)
-    _save_investigation_result(alert_id, result)
-    return result
+async def investigate_alert(alert_id: str):
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+
+    # quick check before invoking the workflow
+    if not orchestrator.db.alert_exists(alert_id):
+        raise HTTPException(status_code=404, detail="Alert not found")
+
+    try:
+        result = await orchestrator.investigate_alert(alert_id)
+        return result
+    except ValueError as ve:
+        # belt-and-suspenders: if orchestrator also raised the guard
+        if "Alert not found" in str(ve):
+            raise HTTPException(status_code=404, detail="Alert not found")
+        raise
 
 @app.post("/process_pending_alerts")
-async def process_pending_alerts(limit: int = 2) -> Dict[str, Any]:
+async def process_pending_alerts(limit: int = 10) -> Dict[str, Any]:
     """Process a batch of pending alerts."""
     results = await orchestrator.process_pending_alerts(limit)
     for result in results:
@@ -125,16 +152,37 @@ async def get_alert_history(alert_id: str) -> Dict[str, Any]:
 # NEW: Endpoint to retrieve the full stored investigation result
 @app.get("/alert/{alert_id}/result")
 async def get_alert_result(alert_id: str) -> Dict[str, Any]:
-    """Retrieve the full investigation result for a given alert_id."""
-    query = "SELECT result_json FROM full_investigation_results WHERE alert_id = ?"
-    result = orchestrator.db.execute_query(query, (alert_id,))
-    
-    if not result:
-        raise HTTPException(status_code=404, detail="Investigation result not found.")
-    
-    # The result_json is stored as a string, so we need to parse it back to a dictionary.
-    return json.loads(result[0]['result_json'])
+    """Retrieve the investigation outcome for a given alert_id (from investigation_outcomes)."""
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
 
+    rows = orchestrator.db.execute_query(
+        """
+        SELECT outcome_id, alert_id, final_outcome, is_suspicious, confidence_score,
+               investigation_summary, human_verified, timestamp, agent_outputs
+        FROM investigation_outcomes
+        WHERE alert_id = ?
+        LIMIT 1
+        """,
+        (alert_id,),
+    )
+    if not rows:
+        raise HTTPException(status_code=404, detail="Result not found for this alert_id")
+
+    rec = rows[0]
+    # Parse agent_outputs JSON (stored as TEXT)
+    ao = rec.get("agent_outputs")
+    if isinstance(ao, str) and ao.strip():
+        try:
+            rec["agent_outputs"] = json.loads(ao)
+        except Exception:
+            # leave as raw string if parsing fails
+            pass
+    elif ao is None:
+        rec["agent_outputs"] = {}
+
+    return rec
+ 
 @app.get("/investigation_outcomes")
 async def get_investigation_outcomes() -> List[Dict[str, Any]]:
     """Fetches all records from the investigation_outcomes table."""
@@ -144,6 +192,31 @@ async def get_investigation_outcomes() -> List[Dict[str, Any]]:
         return results
     else:
         raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+    
+@app.post("/alerts/{alert_id}/finalize_review")
+def finalize_review(alert_id: str, body: ReviewFinalizeRequest):
+    if orchestrator is None:
+        raise HTTPException(status_code=500, detail="Orchestrator not initialized.")
+    try:
+        orchestrator.db.set_review_and_update_outcome(
+            alert_id=alert_id,
+            is_suspicious=body.is_suspicious,
+            investigation_summary=body.investigation_summary,
+        )
+        return {
+            "alert_id": alert_id,
+            "review_status": 2,
+            "updated_fields": {
+                "is_suspicious": body.is_suspicious,
+                "investigation_summary": body.investigation_summary,
+            },
+            "message": "Review finalized and outcome updated."
+        }
+    except ValueError as ve:
+        # bubble up not founds as 404s
+        raise HTTPException(status_code=404, detail=str(ve))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to finalize review: {e}")
 
 @app.get("/__routes")
 def list_routes():

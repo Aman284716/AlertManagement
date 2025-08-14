@@ -116,7 +116,7 @@ const parseExplanation = (explanation) => {
 
 const BeautifiedExplanation = ({ explanation }) => {
   const parsed = parseExplanation(explanation);
-  
+
   if (!parsed) {
     return (
       <Typography variant="body2" color="text.secondary" sx={{ fontStyle: 'italic' }}>
@@ -124,6 +124,73 @@ const BeautifiedExplanation = ({ explanation }) => {
       </Typography>
     );
   }
+
+  // Add this helper function above your component
+  const FormattedText = ({ text }) => {
+    if (!text) return null;
+
+    // Split text into paragraphs and format each
+    const paragraphs = text.split(/\n\s*\n/);
+
+    return (
+      <Box>
+        {paragraphs.map((paragraph, index) => {
+          // Handle bold text with **
+          const formattedParagraph = paragraph.split(/(\*\*.*?\*\*)/g).map((part, partIndex) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+              return (
+                <Typography
+                  key={partIndex}
+                  component="span"
+                  sx={{
+                    fontWeight: 700,
+                    color: '#1976d2',
+                    display: 'block',
+                    mt: 1,
+                    mb: 0.5
+                  }}
+                >
+                  {part.slice(2, -2)}
+                </Typography>
+              );
+            }
+
+            // Handle numbered lists
+            if (part.match(/^\d+\.\s/)) {
+              const items = part.split(/(?=\d+\.\s)/g).filter(item => item.trim());
+              return items.map((item, itemIndex) => (
+                <Typography
+                  key={`${partIndex}-${itemIndex}`}
+                  component="div"
+                  sx={{
+                    mt: 0.5,
+                    mb: 0.5,
+                    pl: 2,
+                    '& strong': { color: '#1976d2' }
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: item.replace(/^(\d+\.\s)/, '<strong>$1</strong>')
+                  }}
+                />
+              ));
+            }
+
+            return (
+              <Typography key={partIndex} component="span">
+                {part}
+              </Typography>
+            );
+          });
+
+          return (
+            <Box key={index} sx={{ mb: index < paragraphs.length - 1 ? 2 : 0 }}>
+              {formattedParagraph}
+            </Box>
+          );
+        })}
+      </Box>
+    );
+  };
 
   return (
     <Box>
@@ -136,12 +203,11 @@ const BeautifiedExplanation = ({ explanation }) => {
                 <InfoIcon sx={{ fontSize: 18 }} />
               </Avatar>
               <Typography variant="h6" sx={{ fontWeight: 600, color: '#1976d2' }}>
-                Overview
+                Insights
               </Typography>
             </Box>
-            <Typography 
-              variant="body1" 
-              sx={{ 
+            <Box
+              sx={{
                 lineHeight: 1.7,
                 color: 'text.primary',
                 backgroundColor: '#f8fafe',
@@ -150,8 +216,8 @@ const BeautifiedExplanation = ({ explanation }) => {
                 border: '1px solid #e3f2fd'
               }}
             >
-              {parsed.description}
-            </Typography>
+              <FormattedText text={parsed.description} />
+            </Box>
           </CardContent>
         </Card>
       )}
@@ -168,7 +234,7 @@ const BeautifiedExplanation = ({ explanation }) => {
                 Key Observations
               </Typography>
             </Box>
-            
+
             <List sx={{ p: 0 }}>
               {parsed.keyObservations.map((observation, index) => (
                 <ListItem key={index} sx={{ px: 0, alignItems: 'flex-start' }}>
@@ -186,9 +252,8 @@ const BeautifiedExplanation = ({ explanation }) => {
                       </Typography>
                     }
                     secondary={
-                      <Typography 
-                        variant="body2" 
-                        sx={{ 
+                      <Box
+                        sx={{
                           color: 'text.primary',
                           lineHeight: 1.6,
                           backgroundColor: '#fafafa',
@@ -197,8 +262,8 @@ const BeautifiedExplanation = ({ explanation }) => {
                           border: '1px solid #f0f0f0'
                         }}
                       >
-                        {observation.content}
-                      </Typography>
+                        <FormattedText text={observation.content} />
+                      </Box>
                     }
                   />
                 </ListItem>
@@ -220,9 +285,8 @@ const BeautifiedExplanation = ({ explanation }) => {
                 Conclusion & Recommendation
               </Typography>
             </Box>
-            <Typography 
-              variant="body1" 
-              sx={{ 
+            <Box
+              sx={{
                 lineHeight: 1.7,
                 color: 'text.primary',
                 backgroundColor: '#f1f8e9',
@@ -232,8 +296,8 @@ const BeautifiedExplanation = ({ explanation }) => {
                 fontWeight: 500
               }}
             >
-              {parsed.conclusion}
-            </Typography>
+              <FormattedText text={parsed.conclusion} />
+            </Box>
           </CardContent>
         </Card>
       )}
@@ -253,23 +317,23 @@ const RulesStatusDisplay = ({ rules }) => {
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {rules.map((rule, index) => (
-            <Box 
-              key={index} 
-              sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                p: 1.5, 
+            <Box
+              key={index}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                p: 1.5,
                 backgroundColor: rule.matched ? '#e8f5e8' : '#fce4ec',
                 borderRadius: 1,
                 border: `1px solid ${rule.matched ? '#4caf50' : '#f44336'}30`
               }}
             >
-              <Avatar 
-                sx={{ 
-                  bgcolor: rule.matched ? '#4caf50' : '#f44336', 
-                  width: 24, 
-                  height: 24, 
-                  mr: 1.5 
+              <Avatar
+                sx={{
+                  bgcolor: rule.matched ? '#4caf50' : '#f44336',
+                  width: 24,
+                  height: 24,
+                  mr: 1.5
                 }}
               >
                 {rule.matched ? (
@@ -278,9 +342,9 @@ const RulesStatusDisplay = ({ rules }) => {
                   <CancelIcon sx={{ fontSize: 16 }} />
                 )}
               </Avatar>
-              <Typography 
-                variant="body2" 
-                sx={{ 
+              <Typography
+                variant="body2"
+                sx={{
                   flexGrow: 1,
                   fontWeight: 500,
                   color: rule.matched ? '#2e7d32' : '#c62828'
@@ -288,8 +352,8 @@ const RulesStatusDisplay = ({ rules }) => {
               >
                 {rule.rule}
               </Typography>
-              <Chip 
-                label={rule.matched ? 'PASSED' : 'FAILED'} 
+              <Chip
+                label={rule.matched ? 'PASSED' : 'FAILED'}
                 size="small"
                 color={rule.matched ? 'success' : 'error'}
                 variant="filled"
@@ -331,7 +395,7 @@ const AgentStepProgress = ({ agentOutputs }) => {
         {steps.map((step, index) => {
           const agentData = agentOutputs[step.agent];
           const isActive = agentData && Object.keys(agentData).length > 0;
-          
+
           return (
             <Step key={step.label} active={true} completed={isActive}>
               <StepLabel
@@ -401,14 +465,14 @@ const AgentOutputCard = ({ agentName, output, color }) => {
     <Box sx={{ mb: 2 }}>
       {/* Rules Status Display */}
       {data.rules_used && <RulesStatusDisplay rules={data.rules_used} />}
-      
+
       {data.llm_analysis && (
         <Card variant="outlined" sx={{ mb: 2, border: `1px solid ${color}30` }}>
           <CardContent>
             <Typography variant="subtitle2" sx={{ fontWeight: 600, color, mb: 1 }}>
               LLM Analysis
             </Typography>
-            
+
             {data.llm_analysis.patterns && (
               <Box sx={{ mb: 2 }}>
                 <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
@@ -423,35 +487,35 @@ const AgentOutputCard = ({ agentName, output, color }) => {
             )}
 
             {/* Only show Evidence section if data exists */}
-            {data.llm_analysis.evidence && 
-             data.llm_analysis.evidence.transaction_amount && 
-             data.llm_analysis.evidence.current_balance && (
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-                  Evidence:
-                </Typography>
-                <Grid container spacing={1}>
-                  <Grid item xs={4}>
-                    <Typography variant="caption" color="text.secondary">Transaction Amount</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      ${data.llm_analysis.evidence.transaction_amount?.toLocaleString()}
-                    </Typography>
+            {data.llm_analysis.evidence &&
+              data.llm_analysis.evidence.transaction_amount &&
+              data.llm_analysis.evidence.current_balance && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+                    Evidence:
+                  </Typography>
+                  <Grid container spacing={1}>
+                    <Grid item xs={4}>
+                      <Typography variant="caption" color="text.secondary">Transaction Amount</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        ${data.llm_analysis.evidence.transaction_amount?.toLocaleString()}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="caption" color="text.secondary">Current Balance</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        ${data.llm_analysis.evidence.current_balance?.toLocaleString()}
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Typography variant="caption" color="text.secondary">Percentage</Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {data.llm_analysis.evidence.percentage?.toFixed(2)}%
+                      </Typography>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="caption" color="text.secondary">Current Balance</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      ${data.llm_analysis.evidence.current_balance?.toLocaleString()}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="caption" color="text.secondary">Percentage</Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {data.llm_analysis.evidence.percentage?.toFixed(2)}%
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-            )}
+                </Box>
+              )}
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Typography variant="body2" sx={{ fontWeight: 600 }}>
@@ -460,7 +524,7 @@ const AgentOutputCard = ({ agentName, output, color }) => {
               <Box sx={{ width: 100 }}>
                 <LinearProgress
                   variant="determinate"
-                  value={(data.llm_analysis.confidence || 0) * 100}
+                  value={(data.overall_confidence || 0) * 100}
                   sx={{
                     height: 8,
                     backgroundColor: '#e0e0e0',
@@ -469,13 +533,13 @@ const AgentOutputCard = ({ agentName, output, color }) => {
                 />
               </Box>
               <Typography variant="body2" sx={{ fontWeight: 600, color }}>
-                {((data.llm_analysis.confidence || 0) * 100).toFixed(1)}%
+                {((data.overall_confidence || 0) * 100).toFixed(1)}%
               </Typography>
             </Box>
           </CardContent>
         </Card>
       )}
-      
+
       {data.overall_confidence && (
         <Typography variant="body2" sx={{ mb: 1 }}>
           <strong>Overall Confidence:</strong> {(data.overall_confidence * 100).toFixed(1)}%
@@ -484,7 +548,9 @@ const AgentOutputCard = ({ agentName, output, color }) => {
     </Box>
   );
 
+  // console.log(`Explanation: ${data.explanation}`)
   const renderExplanationAgent = (data) => (
+
     <Box sx={{ mb: 2 }}>
       {data.explanation && (
         <Card variant="outlined" sx={{ mb: 2, border: `1px solid ${color}30` }}>
@@ -517,7 +583,7 @@ const AgentOutputCard = ({ agentName, output, color }) => {
                 </Typography>
               </Grid>
             </Grid>
-            
+
             {data.evidence_summary.key_findings && (
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
@@ -601,11 +667,11 @@ const AgentOutputCard = ({ agentName, output, color }) => {
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
               {data.key_indicators.map((indicator, idx) => (
-                <Chip 
-                  key={idx} 
-                  label={indicator} 
-                  size="small" 
-                  color="" 
+                <Chip
+                  key={idx}
+                  label={indicator}
+                  size="small"
+                  color=""
                   variant="outlined"
                   sx={{ fontSize: '0.75rem' }}
                 />
@@ -630,7 +696,7 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
   const [detailedAlert, setDetailedAlert] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   // Review state
   const [hypothesisChanged, setHypothesisChanged] = useState(false);
   const [reviewData, setReviewData] = useState({
@@ -652,10 +718,10 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
   // Fetch detailed alert data from API
   const fetchAlertDetails = async (alertId) => {
     if (!alertId) return;
-    
+
     setLoading(true);
     setError(null);
-    
+
     try {
       const response = await fetch(`${API_BASE_URL}/alert/${alertId}/result`, {
         method: 'GET',
@@ -734,21 +800,22 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
   if (!alert) return null;
 
   const displayAlert = detailedAlert || alert;
+  console.log("Displaying alert data:", displayAlert);
 
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose} 
-      maxWidth="lg" 
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="lg"
       fullWidth
       PaperProps={{
-        sx: { 
+        sx: {
           boxShadow: 'none',
           maxHeight: '90vh'
         }
       }}
     >
-      <DialogTitle sx={{ 
+      <DialogTitle sx={{
         background: "#006666",
         color: "white",
         display: "flex",
@@ -756,9 +823,9 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
         justifyContent: "space-between"
       }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar 
-            sx={{ 
-              mr: 2, 
+          <Avatar
+            sx={{
+              mr: 2,
               bgcolor: "rgba(255,255,255,0.2)",
               width: 40,
               height: 40
@@ -776,7 +843,7 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
           </Box>
         </Box>
       </DialogTitle>
-      
+
       <DialogContent sx={{ p: 3, maxHeight: 'calc(90vh - 200px)', overflowY: 'auto' }}>
         {loading ? (
           <Box display="flex" justifyContent="center" alignItems="center" sx={{ py: 4 }}>
@@ -804,11 +871,11 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                 <Typography color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
                   Outcome
                 </Typography>
-                <Chip 
+                <Chip
                   label={displayAlert.outcome || displayAlert.final_outcome}
                   color={
-                    (displayAlert.outcome === "ESCALATE" || displayAlert.final_outcome === "ESCALATE") ? "error" : 
-                    (displayAlert.outcome === "AUTO_CLOSE" || displayAlert.final_outcome === "AUTO_CLOSE") ? "success" : "warning"
+                    (displayAlert.outcome === "ESCALATE" || displayAlert.final_outcome === "ESCALATE") ? "error" :
+                      (displayAlert.outcome === "AUTO_CLOSE" || displayAlert.final_outcome === "AUTO_CLOSE") ? "success" : "warning"
                   }
                   variant="filled"
                   sx={{ fontWeight: 600 }}
@@ -822,11 +889,11 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                 <Typography color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
                   Suspicious
                 </Typography>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
+                <Typography
+                  variant="h6"
+                  sx={{
                     fontWeight: 700,
-                    color: displayAlert.is_suspicious ? "error.main" : "success.main" 
+                    color: displayAlert.is_suspicious ? "error.main" : "success.main"
                   }}
                 >
                   {displayAlert.is_suspicious ? "Yes" : "No"}
@@ -852,9 +919,13 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                 <Typography color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
                   Loops Executed
                 </Typography>
+                {/* <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                  {displayAlert.agent_outputs.RiskAssessmentAgent.investigation_loops || 0}
+                </Typography> */}
                 <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                  {displayAlert.loops_executed || 0}
+                  {displayAlert?.agent_outputs?.RiskAssessmentAgent?.investigation_loops || 0}
                 </Typography>
+
               </CardContent>
             </Card>
           </Grid>
@@ -879,7 +950,7 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                 }
               />
             </Box>
-            
+
             {hypothesisChanged && (
               <Box sx={{ mt: 2 }}>
                 <Grid container spacing={2}>
@@ -888,8 +959,8 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                       control={
                         <Checkbox
                           checked={reviewData.is_suspicious === true}
-                          onChange={(e) => setReviewData(prev => ({ 
-                            ...prev, 
+                          onChange={(e) => setReviewData(prev => ({
+                            ...prev,
                             is_suspicious: e.target.checked ? true : (reviewData.is_suspicious === false ? false : null)
                           }))}
                           color="error"
@@ -901,8 +972,8 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                       control={
                         <Checkbox
                           checked={reviewData.is_suspicious === false}
-                          onChange={(e) => setReviewData(prev => ({ 
-                            ...prev, 
+                          onChange={(e) => setReviewData(prev => ({
+                            ...prev,
                             is_suspicious: e.target.checked ? false : (reviewData.is_suspicious === true ? true : null)
                           }))}
                           color="success"
@@ -919,9 +990,9 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                       rows={3}
                       label="Updated Investigation Summary"
                       value={reviewData.investigation_summary}
-                      onChange={(e) => setReviewData(prev => ({ 
-                        ...prev, 
-                        investigation_summary: e.target.value 
+                      onChange={(e) => setReviewData(prev => ({
+                        ...prev,
+                        investigation_summary: e.target.value
                       }))}
                       placeholder="Reviewed. Looks suspicious due to X and Y."
                       variant="outlined"
@@ -937,9 +1008,9 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
         <Card sx={{ mb: 3, border: "1px solid #e0e0e0" }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <Avatar 
-                sx={{ 
-                  mr: 2, 
+              <Avatar
+                sx={{
+                  mr: 2,
                   bgcolor: "primary.main",
                   width: 40,
                   height: 40
@@ -951,9 +1022,9 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                 Investigation Summary
               </Typography>
             </Box>
-            <Typography 
-              variant="body1" 
-              sx={{ 
+            <Typography
+              variant="body1"
+              sx={{
                 lineHeight: 1.6,
                 color: "text.primary"
               }}
@@ -968,9 +1039,9 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
           <Card sx={{ mb: 3, border: "1px solid #e0e0e0" }}>
             <CardContent>
               <Box display="flex" alignItems="center" mb={2}>
-                <Avatar 
-                  sx={{ 
-                    mr: 2, 
+                <Avatar
+                  sx={{
+                    mr: 2,
                     bgcolor: "warning.main",
                     width: 40,
                     height: 40
@@ -1001,9 +1072,9 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
         <Card sx={{ border: "1px solid #e0e0e0" }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <Avatar 
-                sx={{ 
-                  mr: 2, 
+              <Avatar
+                sx={{
+                  mr: 2,
                   bgcolor: "info.main",
                   width: 40,
                   height: 40
@@ -1015,15 +1086,15 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
                 GenAI Agent Analysis Pipeline
               </Typography>
             </Box>
-            
+
             {displayAlert.agent_outputs && Object.keys(displayAlert.agent_outputs).length > 0 ? (
               <AgentStepProgress agentOutputs={displayAlert.agent_outputs} />
             ) : (
-              <Typography 
-                variant="body2" 
+              <Typography
+                variant="body2"
                 color="text.secondary"
-                sx={{ 
-                  textAlign: 'center', 
+                sx={{
+                  textAlign: 'center',
                   py: 2,
                   fontStyle: 'italic'
                 }}
@@ -1034,22 +1105,22 @@ const AlertDetailModal = ({ alert, open, onClose }) => {
           </CardContent>
         </Card>
       </DialogContent>
-      
+
       <DialogActions sx={{ p: 3, borderTop: "1px solid #e0e0e0" }}>
-        <Button 
-          onClick={onClose} 
+        <Button
+          onClick={onClose}
           variant="outlined"
           startIcon={<CloseIcon />}
           sx={{ fontWeight: 600 }}
         >
           Close
         </Button>
-        <Button 
+        <Button
           onClick={handleApprove}
           variant="contained"
           startIcon={submitting ? <CircularProgress size={20} /> : <ApprovalIcon />}
           disabled={submitting}
-          sx={{ 
+          sx={{
             fontWeight: 600,
             ml: 1
           }}

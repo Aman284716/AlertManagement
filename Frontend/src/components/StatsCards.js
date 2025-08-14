@@ -74,6 +74,7 @@ const StatsCards = ({ onProcessAlerts, loading, alertCount, avgProcessingTime, s
   // Get counts by review status
   const getCountByStatus = (status) => {
     const statusData = reviewStats.find(item => item.review_status === status);
+    console.log(`Status ${status} count:`, statusData ? statusData.count : 0);
     return statusData ? statusData.count : 0;
   };
 

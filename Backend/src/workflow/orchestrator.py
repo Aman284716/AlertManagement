@@ -88,7 +88,7 @@ class AlertInvestigationOrchestrator:
             }
 
 
-    async def process_pending_alerts(self, limit: int = 10) -> List[Dict[str, Any]]:
+    async def process_pending_alerts(self, limit: int = 2) -> List[Dict[str, Any]]:
         """Process multiple pending alerts."""
         print("\n[Orchestrator] Checking for new alerts to process...")
         pending_alerts = self.db.get_pending_alerts(limit)

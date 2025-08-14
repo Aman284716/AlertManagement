@@ -115,7 +115,7 @@ async def investigate_alert(alert_id: str):
         raise
 
 @app.post("/process_pending_alerts")
-async def process_pending_alerts(limit: int = 10) -> Dict[str, Any]:
+async def process_pending_alerts(limit: int = 2) -> Dict[str, Any]:
     """Process a batch of pending alerts."""
     results = await orchestrator.process_pending_alerts(limit)
     for result in results:
